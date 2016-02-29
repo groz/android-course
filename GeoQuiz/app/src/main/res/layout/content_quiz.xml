@@ -6,9 +6,9 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/question_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/question_text"
         android:padding="24dp"/>
 
     <LinearLayout
@@ -17,19 +17,28 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/true_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/true_button"
-            android:id="@+id/true_button"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
         <Button
+            android:id="@+id/false_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/false_button"
-            android:id="@+id/false_button"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_button"
+        android:drawableRight="@drawable/arrow_right"
+        android:drawablePadding="4dp"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
 
 </LinearLayout>
