@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
+
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
