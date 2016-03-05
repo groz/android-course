@@ -29,6 +29,7 @@ public class QuizActivity extends AppCompatActivity {
     };
 
     private int mCurrentIndex = 0;
+    private String INDEX_KEY = "mCurrentIndex";
 
     private static int mod(int x, int y) {
         int rem = x % y;
@@ -59,6 +60,12 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(INDEX_KEY, 0);
+        } else {
+            Log.d(TAG, "First run. No saved instance state.");
+        }
 
         setContentView(R.layout.activity_quiz);
 
@@ -135,6 +142,12 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
@@ -156,5 +169,13 @@ public class QuizActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstaceState");
+
+        outState.putInt(INDEX_KEY, mCurrentIndex);
     }
 }

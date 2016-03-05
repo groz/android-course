@@ -1,6 +1,7 @@
 package com.bignerdranch.android.geoquiz;
 
 
+import android.content.pm.ActivityInfo;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -64,5 +65,17 @@ public class QuizActivityTest {
     public void prevQuestionShownOnPrevClick() {
         prevButton.perform(click());
         questionView.check(matches(withText(R.string.question_asia)));
+    }
+
+    @Test
+    public void questionIndexSavedOnRotate() {
+        nextButton.perform(click());
+        questionView.check(matches(withText(R.string.question_oceans)));
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        questionView.check(matches(withText(R.string.question_oceans)));
+
+        mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        questionView.check(matches(withText(R.string.question_oceans)));
     }
 }
