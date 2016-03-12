@@ -38,7 +38,7 @@ public class QuizActivityTest {
         nextButton = onView(withId(R.id.next_button));
         prevButton = onView(withId(R.id.prev_button));
         cheatButton = onView(withId(R.id.cheat_button));
-        cheatText = onView(withId(R.id.cheat_text_view));
+        cheatText = onView(withId(R.id.cheat_warning_view));
     }
 
     @Test

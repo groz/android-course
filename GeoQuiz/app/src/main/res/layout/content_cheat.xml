@@ -11,14 +11,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.bignerdranch.android.geoquiz.CheatActivity"
-    tools:showIn="@layout/activity_cheat">
+    tools:showIn="@layout/activity_cheat"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/cheat_text_view"
+        android:id="@+id/cheat_warning_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hey, this is some text"
-        tools:text="Hello, this is a cheat"
-        android:layout_gravity="center_horizontal"/>
+        android:text="@string/warning_text"/>
+
+    <TextView
+        android:id="@+id/answer_cheat_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Answer"/>
+
+    <Button
+        android:id="@+id/show_answer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_answer_text"/>
 
 </LinearLayout>
