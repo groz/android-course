@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class QuizActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
     private static final int REQUEST_CODE_CHEAT = 1;
+    private static final String CHEATER_STATE = "cheater_state";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -33,6 +34,7 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_asia, true),
     };
 
+    private boolean mIsCheater = false;
     private int mCurrentIndex = 0;
     private String INDEX_KEY = "mCurrentIndex";
 
@@ -45,6 +47,10 @@ public class QuizActivity extends AppCompatActivity {
         int toastMessageId = getCurrentQuestion().isAnswerTrue() == userOption
                 ? R.string.correct_toast
                 : R.string.incorrect_toast;
+
+        if (mIsCheater) {
+            toastMessageId = R.string.judgement;
+        }
 
         Toast.makeText(this, toastMessageId, Toast.LENGTH_SHORT).show();
     }
@@ -69,6 +75,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(INDEX_KEY, 0);
+            mIsCheater = savedInstanceState.getBoolean(CHEATER_STATE);
         } else {
             Log.d(TAG, "First run. No saved instance state.");
         }
@@ -193,19 +200,21 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState");
 
         outState.putInt(INDEX_KEY, mCurrentIndex);
+        outState.putBoolean(CHEATER_STATE, mIsCheater);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String msg = String.format("onActivityResult: %d, %d, %s", requestCode, resultCode, data);
+        Log.d(TAG, msg);
+
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
 
         switch (requestCode) {
             case REQUEST_CODE_CHEAT:
-                if (CheatActivity.wasAnswerShown(data)) {
-                    Toast.makeText(QuizActivity.this, R.string.judgement, Toast.LENGTH_LONG).show();
-                }
+                mIsCheater = CheatActivity.wasAnswerShown(data);
                 break;
         }
 

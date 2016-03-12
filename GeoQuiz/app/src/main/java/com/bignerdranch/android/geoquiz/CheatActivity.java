@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class CheatActivity extends AppCompatActivity {
+    private static final String TAG = "CheatActivity";
 
     private static final String EXTRA_ANSWER_IS_TRUE =
             "com.bignerdranch.android.geoquiz.answer_is_true";
@@ -16,10 +18,13 @@ public class CheatActivity extends AppCompatActivity {
     private static final String EXTRA_ANSWER_SHOWN =
             "com.bignerdranch.android.geoquiz.answer_shown";
 
+    private static final String CHEATER_STATE = "cheater_state";
+
     private boolean mAnswerIsTrue;
 
     private TextView mAnswerTextView;
     private Button mShowAnswer;
+    private Boolean mIsCheater;
 
 
     @Override
@@ -27,9 +32,13 @@ public class CheatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
+        mIsCheater = savedInstanceState != null && savedInstanceState.getBoolean(CHEATER_STATE);
+        Log.d(TAG, String.format("Cheater: %b", mIsCheater));
+        setAnswerShownResult(mIsCheater);
+
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
-        mAnswerTextView = (TextView)findViewById(R.id.answer_cheat_view);
-        mShowAnswer = (Button)findViewById(R.id.show_answer_button);
+        mAnswerTextView = (TextView) findViewById(R.id.answer_cheat_view);
+        mShowAnswer = (Button) findViewById(R.id.show_answer_button);
 
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,9 +48,16 @@ public class CheatActivity extends AppCompatActivity {
                 } else {
                     mAnswerTextView.setText(R.string.false_button);
                 }
+                mIsCheater = true;
                 setAnswerShownResult(true);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(CHEATER_STATE, mIsCheater);
     }
 
     private void setAnswerShownResult(boolean answerShown) {
