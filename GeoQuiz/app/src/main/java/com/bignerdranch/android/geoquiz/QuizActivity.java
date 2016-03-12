@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class QuizActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
     private static final int REQUEST_CODE_CHEAT = 1;
@@ -34,7 +36,7 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_asia, true),
     };
 
-    private boolean mIsCheater = false;
+    private ArrayList<Integer> mCheated = new ArrayList<Integer>();
     private int mCurrentIndex = 0;
     private String INDEX_KEY = "mCurrentIndex";
 
@@ -48,7 +50,7 @@ public class QuizActivity extends AppCompatActivity {
                 ? R.string.correct_toast
                 : R.string.incorrect_toast;
 
-        if (mIsCheater) {
+        if (mCheated.contains(mCurrentIndex)) {
             toastMessageId = R.string.judgement;
         }
 
@@ -75,7 +77,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(INDEX_KEY, 0);
-            mIsCheater = savedInstanceState.getBoolean(CHEATER_STATE);
+            mCheated = savedInstanceState.getIntegerArrayList(CHEATER_STATE);
         } else {
             Log.d(TAG, "First run. No saved instance state.");
         }
@@ -200,7 +202,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState");
 
         outState.putInt(INDEX_KEY, mCurrentIndex);
-        outState.putBoolean(CHEATER_STATE, mIsCheater);
+        outState.putIntegerArrayList(CHEATER_STATE, mCheated);
     }
 
     @Override
@@ -214,7 +216,9 @@ public class QuizActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case REQUEST_CODE_CHEAT:
-                mIsCheater = CheatActivity.wasAnswerShown(data);
+                if (CheatActivity.wasAnswerShown(data) && !mCheated.contains(mCurrentIndex)) {
+                    mCheated.add(mCurrentIndex);
+                }
                 break;
         }
 
