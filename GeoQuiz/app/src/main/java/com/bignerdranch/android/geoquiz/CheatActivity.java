@@ -57,7 +57,8 @@ public class CheatActivity extends AppCompatActivity {
             }
         });
 
-        mApiLevelTextView.setText("API level " + Build.VERSION.SDK_INT);
+        String str = getString(R.string.api_level_text);
+        mApiLevelTextView.setText(String.format(str, Build.VERSION.SDK_INT));
     }
 
     @Override
