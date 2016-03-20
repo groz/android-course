@@ -1,4 +1,4 @@
-package criminalintent.android.bignerdranch.com.criminalintent;
+package com.bignerdranch.android.criminalintent;
 
 import java.util.UUID;
 
