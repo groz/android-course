@@ -1,17 +1,30 @@
 package criminalintent.android.bignerdranch.com.criminalintent;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 public class CriminalActivity extends FragmentActivity {
     private static String TAG = "CriminalActivity";
+    private Fragment mCrimeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criminal);
         Log.d(TAG, "onCreate");
+
+        FragmentManager fm = getSupportFragmentManager();
+        mCrimeFragment = fm.findFragmentById(R.id.fragment_container);
+
+        if (mCrimeFragment == null) {
+            mCrimeFragment = new CrimeFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, new CrimeFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -23,7 +36,7 @@ public class CriminalActivity extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onPause");
+        Log.d(TAG, "onResume");
     }
 
     @Override

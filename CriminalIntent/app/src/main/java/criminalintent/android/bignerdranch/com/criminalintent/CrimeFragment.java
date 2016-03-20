@@ -25,7 +25,6 @@ public class CrimeFragment extends Fragment {
         mCrime = new Crime();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
@@ -59,7 +58,7 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onPause");
+        Log.d(TAG, "onResume");
     }
 
     @Override
