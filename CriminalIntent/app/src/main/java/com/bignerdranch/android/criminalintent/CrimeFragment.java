@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
@@ -21,6 +24,8 @@ public class CrimeFragment extends Fragment {
 
     private Crime mCrime;
     private EditText mCrimeTitle;
+    private CheckBox mSolvedCheckbox;
+    private Button mDateButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,13 @@ public class CrimeFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
+        mCrimeTitle = (EditText) v.findViewById(R.id.crime_title);
+        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.solved_checkbox);
+        mDateButton = (Button) v.findViewById(R.id.crime_date_button);
+
         initState(savedInstanceState);
 
-        mCrimeTitle = (EditText) v.findViewById(R.id.crime_title);
+        // set handlers
         mCrimeTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -52,6 +61,13 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mSolvedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCrime = Crime.newBuilder(mCrime).setSolved(isChecked).build();
+            }
+        });
+
         return v;
     }
 
@@ -59,11 +75,13 @@ public class CrimeFragment extends Fragment {
         try {
             byte[] data = savedInstanceState.getByteArray(CRIME_STATE_TAG);
             mCrime = Crime.parseFrom(data);
+            Log.d(TAG, "Loaded saved state: " + mCrime.toString());
         } catch (Exception e) {
             Log.d(TAG, "Couldn't load state. Creating anew...", e);
 
             mCrime = Crime.newBuilder()
                     .setId(UUID.randomUUID().toString())
+                    .setTitle("")
                     .setCreatedDate(new Date().getTime())
                     .setSolved(false)
                     .build();
@@ -88,6 +106,11 @@ public class CrimeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+
+
+        mCrimeTitle.setText(mCrime.getTitle());
+        mSolvedCheckbox.setChecked(mCrime.getSolved());
+        mDateButton.setText(new Date(mCrime.getCreatedDate()).toString());
     }
 
     @Override
