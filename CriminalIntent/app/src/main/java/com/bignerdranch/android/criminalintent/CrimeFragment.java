@@ -29,6 +29,8 @@ public class CrimeFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
+        populate(savedInstanceState);
+
         mCrimeTitle = (EditText) v.findViewById(R.id.crime_title);
         mCrimeTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -46,6 +48,9 @@ public class CrimeFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void populate(Bundle savedInstanceState) {
     }
 
     @Override
