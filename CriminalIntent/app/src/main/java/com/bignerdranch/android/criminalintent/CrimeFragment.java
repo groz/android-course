@@ -10,8 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
+
+import java.util.Date;
+import java.util.UUID;
+
 public class CrimeFragment extends Fragment {
     private static String TAG = "CrimeFragment";
+    private static String CRIME_STATE_TAG = "CrimeState";
 
     private Crime mCrime;
     private EditText mCrimeTitle;
@@ -20,8 +26,6 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-
-        mCrime = new Crime();
     }
 
     @Override
@@ -29,7 +33,7 @@ public class CrimeFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
-        populate(savedInstanceState);
+        initState(savedInstanceState);
 
         mCrimeTitle = (EditText) v.findViewById(R.id.crime_title);
         mCrimeTitle.addTextChangedListener(new TextWatcher() {
@@ -39,7 +43,7 @@ public class CrimeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCrime.setTitle(s.toString());
+                mCrime = Crime.newBuilder(mCrime).setTitle(s.toString()).build();
             }
 
             @Override
@@ -50,13 +54,27 @@ public class CrimeFragment extends Fragment {
         return v;
     }
 
-    private void populate(Bundle savedInstanceState) {
+    private void initState(Bundle savedInstanceState) {
+        try {
+            byte[] data = savedInstanceState.getByteArray(CRIME_STATE_TAG);
+            mCrime = Crime.parseFrom(data);
+        } catch (Exception e) {
+            Log.d(TAG, "Couldn't load state. Creating anew...", e);
+
+            mCrime = Crime.newBuilder()
+                    .setId(UUID.randomUUID().toString())
+                    .setCreatedDate(new Date().getTime())
+                    .setSolved(false)
+                    .build();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
+
+        outState.putByteArray(CRIME_STATE_TAG, mCrime.toByteArray());
     }
 
     @Override

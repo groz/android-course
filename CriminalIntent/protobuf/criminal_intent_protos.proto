@@ -1,0 +1,8 @@
+package com.bignerdranch.android.criminalintent.model;
+
+message Crime {
+  required string id = 1;
+  required string title = 2;
+  required int64 createdDate = 3;
+  required bool solved = 4;
+}
