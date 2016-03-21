@@ -22,7 +22,7 @@ public class CrimeFragment extends Fragment {
     private static String TAG = "CrimeFragment";
     private static String CRIME_STATE_TAG = "CrimeState";
 
-    private Crime mCrime;
+    private Crime.Builder mCrime;
     private EditText mCrimeTitle;
     private CheckBox mSolvedCheckbox;
     private Button mDateButton;
@@ -52,8 +52,7 @@ public class CrimeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO probably slow, recreate only once input is done
-                mCrime = Crime.newBuilder(mCrime).setTitle(s.toString()).build();
+                mCrime.setTitle(s.toString());
             }
 
             @Override
@@ -64,7 +63,7 @@ public class CrimeFragment extends Fragment {
         mSolvedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCrime = Crime.newBuilder(mCrime).setSolved(isChecked).build();
+                mCrime.setSolved(isChecked);
             }
         });
 
@@ -74,7 +73,7 @@ public class CrimeFragment extends Fragment {
     private void initState(Bundle savedInstanceState) {
         try {
             byte[] data = savedInstanceState.getByteArray(CRIME_STATE_TAG);
-            mCrime = Crime.parseFrom(data);
+            mCrime = Crime.parseFrom(data).toBuilder();
             Log.d(TAG, "Loaded saved state: " + mCrime.toString());
         } catch (Exception e) {
             Log.d(TAG, "Couldn't load state. Creating anew...", e);
@@ -83,8 +82,7 @@ public class CrimeFragment extends Fragment {
                     .setId(UUID.randomUUID().toString())
                     .setTitle("")
                     .setCreatedDate(new Date().getTime())
-                    .setSolved(false)
-                    .build();
+                    .setSolved(false);
         }
     }
 
@@ -93,7 +91,7 @@ public class CrimeFragment extends Fragment {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
 
-        outState.putByteArray(CRIME_STATE_TAG, mCrime.toByteArray());
+        outState.putByteArray(CRIME_STATE_TAG, mCrime.build().toByteArray());
     }
 
     @Override
