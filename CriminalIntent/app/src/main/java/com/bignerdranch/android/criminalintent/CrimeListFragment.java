@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
@@ -56,13 +57,13 @@ public class CrimeListFragment extends Fragment {
 
     private CrimeHolder createCrimeViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View v = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+        View v = inflater.inflate(R.layout.crime_list_item, parent, false);
         return new CrimeHolder(v);
     }
 
     private void populateViewHolder(CrimeHolder holder, int position) {
         Crime crime = mCrimeLab.getCrimes(position);
-        holder.updateFrom(crime);
+        holder.bindTo(crime);
     }
 
     private void initState(Bundle savedInstanceState) {
@@ -126,15 +127,21 @@ public class CrimeListFragment extends Fragment {
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder {
-        private TextView mItemView;
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
+        private CheckBox mSolvedCheckbox;
 
         public CrimeHolder(View itemView) {
             super(itemView);
-            mItemView = (TextView) itemView;
+            mTitleTextView = (TextView) itemView.findViewById(R.id.crimelist_title);
+            mDateTextView = (TextView) itemView.findViewById(R.id.crimelist_date);
+            mSolvedCheckbox = (CheckBox) itemView.findViewById(R.id.crimelist_solved);
         }
 
-        public void updateFrom(Crime crime) {
-            mItemView.setText(crime.getTitle());
+        public void bindTo(Crime crime) {
+            mTitleTextView.setText(crime.getTitle());
+            mDateTextView.setText(new Date(crime.getCreatedDate()).toString());
+            mSolvedCheckbox.setChecked(crime.getSolved());
         }
     }
 }
