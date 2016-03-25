@@ -24,7 +24,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
         if (mFragment == null) {
             mFragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.fragment_container, new CrimeFragment())
+                    .add(R.id.fragment_container, mFragment)
                     .commit();
         }
     }
