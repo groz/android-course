@@ -829,11 +829,704 @@ public final class CriminalIntentProtos {
     // @@protoc_insertion_point(class_scope:com.bignerdranch.android.criminalintent.model.Crime)
   }
 
+  public interface CrimeLabOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.bignerdranch.android.criminalintent.model.CrimeLab)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> 
+        getCrimesList();
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime getCrimes(int index);
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    int getCrimesCount();
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    java.util.List<? extends com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder> 
+        getCrimesOrBuilderList();
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder getCrimesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code com.bignerdranch.android.criminalintent.model.CrimeLab}
+   */
+  public static final class CrimeLab extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:com.bignerdranch.android.criminalintent.model.CrimeLab)
+      CrimeLabOrBuilder {
+    // Use CrimeLab.newBuilder() to construct.
+    private CrimeLab(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CrimeLab(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CrimeLab defaultInstance;
+    public static CrimeLab getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CrimeLab getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CrimeLab(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                crimes_ = new java.util.ArrayList<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              crimes_.add(input.readMessage(com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          crimes_ = java.util.Collections.unmodifiableList(crimes_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.class, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CrimeLab> PARSER =
+        new com.google.protobuf.AbstractParser<CrimeLab>() {
+      public CrimeLab parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CrimeLab(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CrimeLab> getParserForType() {
+      return PARSER;
+    }
+
+    public static final int CRIMES_FIELD_NUMBER = 1;
+    private java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> crimes_;
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    public java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> getCrimesList() {
+      return crimes_;
+    }
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    public java.util.List<? extends com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder> 
+        getCrimesOrBuilderList() {
+      return crimes_;
+    }
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    public int getCrimesCount() {
+      return crimes_.size();
+    }
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime getCrimes(int index) {
+      return crimes_.get(index);
+    }
+    /**
+     * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+     */
+    public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder getCrimesOrBuilder(
+        int index) {
+      return crimes_.get(index);
+    }
+
+    private void initFields() {
+      crimes_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      for (int i = 0; i < getCrimesCount(); i++) {
+        if (!getCrimes(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < crimes_.size(); i++) {
+        output.writeMessage(1, crimes_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < crimes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, crimes_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.bignerdranch.android.criminalintent.model.CrimeLab}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.bignerdranch.android.criminalintent.model.CrimeLab)
+        com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLabOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.class, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.Builder.class);
+      }
+
+      // Construct using com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getCrimesFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (crimesBuilder_ == null) {
+          crimes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          crimesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor;
+      }
+
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab getDefaultInstanceForType() {
+        return com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.getDefaultInstance();
+      }
+
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab build() {
+        com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab buildPartial() {
+        com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab result = new com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab(this);
+        int from_bitField0_ = bitField0_;
+        if (crimesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            crimes_ = java.util.Collections.unmodifiableList(crimes_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.crimes_ = crimes_;
+        } else {
+          result.crimes_ = crimesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab) {
+          return mergeFrom((com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab other) {
+        if (other == com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab.getDefaultInstance()) return this;
+        if (crimesBuilder_ == null) {
+          if (!other.crimes_.isEmpty()) {
+            if (crimes_.isEmpty()) {
+              crimes_ = other.crimes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureCrimesIsMutable();
+              crimes_.addAll(other.crimes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.crimes_.isEmpty()) {
+            if (crimesBuilder_.isEmpty()) {
+              crimesBuilder_.dispose();
+              crimesBuilder_ = null;
+              crimes_ = other.crimes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              crimesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCrimesFieldBuilder() : null;
+            } else {
+              crimesBuilder_.addAllMessages(other.crimes_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getCrimesCount(); i++) {
+          if (!getCrimes(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> crimes_ =
+        java.util.Collections.emptyList();
+      private void ensureCrimesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          crimes_ = new java.util.ArrayList<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime>(crimes_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder> crimesBuilder_;
+
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> getCrimesList() {
+        if (crimesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(crimes_);
+        } else {
+          return crimesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public int getCrimesCount() {
+        if (crimesBuilder_ == null) {
+          return crimes_.size();
+        } else {
+          return crimesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime getCrimes(int index) {
+        if (crimesBuilder_ == null) {
+          return crimes_.get(index);
+        } else {
+          return crimesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder setCrimes(
+          int index, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime value) {
+        if (crimesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCrimesIsMutable();
+          crimes_.set(index, value);
+          onChanged();
+        } else {
+          crimesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder setCrimes(
+          int index, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder builderForValue) {
+        if (crimesBuilder_ == null) {
+          ensureCrimesIsMutable();
+          crimes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          crimesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder addCrimes(com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime value) {
+        if (crimesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCrimesIsMutable();
+          crimes_.add(value);
+          onChanged();
+        } else {
+          crimesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder addCrimes(
+          int index, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime value) {
+        if (crimesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCrimesIsMutable();
+          crimes_.add(index, value);
+          onChanged();
+        } else {
+          crimesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder addCrimes(
+          com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder builderForValue) {
+        if (crimesBuilder_ == null) {
+          ensureCrimesIsMutable();
+          crimes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          crimesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder addCrimes(
+          int index, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder builderForValue) {
+        if (crimesBuilder_ == null) {
+          ensureCrimesIsMutable();
+          crimes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          crimesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder addAllCrimes(
+          java.lang.Iterable<? extends com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime> values) {
+        if (crimesBuilder_ == null) {
+          ensureCrimesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, crimes_);
+          onChanged();
+        } else {
+          crimesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder clearCrimes() {
+        if (crimesBuilder_ == null) {
+          crimes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          crimesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public Builder removeCrimes(int index) {
+        if (crimesBuilder_ == null) {
+          ensureCrimesIsMutable();
+          crimes_.remove(index);
+          onChanged();
+        } else {
+          crimesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder getCrimesBuilder(
+          int index) {
+        return getCrimesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder getCrimesOrBuilder(
+          int index) {
+        if (crimesBuilder_ == null) {
+          return crimes_.get(index);  } else {
+          return crimesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public java.util.List<? extends com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder> 
+           getCrimesOrBuilderList() {
+        if (crimesBuilder_ != null) {
+          return crimesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(crimes_);
+        }
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder addCrimesBuilder() {
+        return getCrimesFieldBuilder().addBuilder(
+            com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder addCrimesBuilder(
+          int index) {
+        return getCrimesFieldBuilder().addBuilder(
+            index, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.bignerdranch.android.criminalintent.model.Crime crimes = 1;</code>
+       */
+      public java.util.List<com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder> 
+           getCrimesBuilderList() {
+        return getCrimesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder> 
+          getCrimesFieldBuilder() {
+        if (crimesBuilder_ == null) {
+          crimesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime.Builder, com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeOrBuilder>(
+                  crimes_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          crimes_ = null;
+        }
+        return crimesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.bignerdranch.android.criminalintent.model.CrimeLab)
+    }
+
+    static {
+      defaultInstance = new CrimeLab(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.bignerdranch.android.criminalintent.model.CrimeLab)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_bignerdranch_android_criminalintent_model_Crime_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_bignerdranch_android_criminalintent_model_Crime_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -846,7 +1539,10 @@ public final class CriminalIntentProtos {
       "\n%protobuf/criminal_intent_protos.proto\022" +
       "-com.bignerdranch.android.criminalintent" +
       ".model\"G\n\005Crime\022\n\n\002id\030\001 \002(\t\022\r\n\005title\030\002 \002" +
-      "(\t\022\023\n\013createdDate\030\003 \002(\003\022\016\n\006solved\030\004 \002(\010"
+      "(\t\022\023\n\013createdDate\030\003 \002(\003\022\016\n\006solved\030\004 \002(\010\"" +
+      "P\n\010CrimeLab\022D\n\006crimes\030\001 \003(\01324.com.bigner" +
+      "dranch.android.criminalintent.model.Crim" +
+      "e"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -866,6 +1562,12 @@ public final class CriminalIntentProtos {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_bignerdranch_android_criminalintent_model_Crime_descriptor,
         new java.lang.String[] { "Id", "Title", "CreatedDate", "Solved", });
+    internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_com_bignerdranch_android_criminalintent_model_CrimeLab_descriptor,
+        new java.lang.String[] { "Crimes", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

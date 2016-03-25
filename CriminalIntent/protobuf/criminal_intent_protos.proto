@@ -6,3 +6,7 @@ message Crime {
   required int64 createdDate = 3;
   required bool solved = 4;
 }
+
+message CrimeLab {
+  repeated Crime crimes = 1;
+}
