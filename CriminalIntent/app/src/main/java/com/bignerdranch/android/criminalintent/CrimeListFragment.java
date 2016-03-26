@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos;
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab;
 
@@ -62,7 +64,7 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void populateViewHolder(CrimeHolder holder, int position) {
-        Crime crime = mCrimeLab.getCrimes(position);
+        Crime.Builder crime = mCrimeLab.getCrimesBuilder(position);
         holder.bindTo(crime);
     }
 
@@ -77,12 +79,11 @@ public class CrimeListFragment extends Fragment {
             mCrimeLab = CrimeLab.newBuilder();
 
             for (int i = 0; i < 100; ++i) {
-                Crime crime = Crime.newBuilder()
+                Crime.Builder crime = Crime.newBuilder()
                         .setId(UUID.randomUUID().toString())
-                        .setTitle("Crime # "+i)
+                        .setTitle("Crime # " + i)
                         .setSolved(i % 2 == 0)
-                        .setCreatedDate(new Date().getTime())
-                        .build();
+                        .setCreatedDate(new Date().getTime());
                 mCrimeLab.addCrimes(crime);
             }
         }
@@ -130,18 +131,29 @@ public class CrimeListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckbox;
+        private Crime.Builder mCrime;
 
         public CrimeHolder(View itemView) {
             super(itemView);
             mTitleTextView = (TextView) itemView.findViewById(R.id.crimelist_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crimelist_date);
             mSolvedCheckbox = (CheckBox) itemView.findViewById(R.id.crimelist_solved);
+
+            mSolvedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (mCrime != null) {
+                        mCrime.setSolved(isChecked);
+                    }
+                }
+            });
         }
 
-        public void bindTo(Crime crime) {
+        public void bindTo(Crime.Builder crime) {
             mTitleTextView.setText(crime.getTitle());
             mDateTextView.setText(new Date(crime.getCreatedDate()).toString());
             mSolvedCheckbox.setChecked(crime.getSolved());
+            mCrime = crime;
         }
     }
 }
