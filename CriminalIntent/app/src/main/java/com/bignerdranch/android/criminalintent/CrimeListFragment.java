@@ -127,7 +127,7 @@ public class CrimeListFragment extends Fragment {
         Log.d(TAG, "onDestroy");
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+    private class CrimeHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckbox;
@@ -138,22 +138,24 @@ public class CrimeListFragment extends Fragment {
             mTitleTextView = (TextView) itemView.findViewById(R.id.crimelist_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crimelist_date);
             mSolvedCheckbox = (CheckBox) itemView.findViewById(R.id.crimelist_solved);
-
-            mSolvedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (mCrime != null) {
-                        mCrime.setSolved(isChecked);
-                    }
-                }
-            });
+            mSolvedCheckbox.setOnCheckedChangeListener(this);
         }
 
         public void bindTo(Crime.Builder crime) {
+            Log.d(TAG, "bindTo(" + crime.toString() + ")");
+            mCrime = crime;
+
             mTitleTextView.setText(crime.getTitle());
             mDateTextView.setText(new Date(crime.getCreatedDate()).toString());
             mSolvedCheckbox.setChecked(crime.getSolved());
-            mCrime = crime;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (mCrime != null) {
+                Log.d(TAG, "setSolved(" + mCrime.toString() + ", " + isChecked + ")");
+                mCrime.setSolved(isChecked);
+            }
         }
     }
 }
