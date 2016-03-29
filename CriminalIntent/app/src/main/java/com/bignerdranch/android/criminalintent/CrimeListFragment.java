@@ -1,5 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos;
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
 import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab;
 
@@ -22,8 +23,10 @@ import java.util.UUID;
 
 public class CrimeListFragment extends Fragment {
     private static String TAG = "CrimeListFragment";
-    private static String CRIME_LAB_TAG = "CrimeLabState";
+    private static String CRIME_LAB_TAG = "CRIME_LAB";
+    private static int EDIT_CRIME_REQUEST = 101;
     private CrimeLab.Builder mCrimeLab;
+    private RecyclerView.Adapter<CrimeHolder> mAdapter;
 
     @Nullable
     @Override
@@ -37,7 +40,7 @@ public class CrimeListFragment extends Fragment {
         RecyclerView crimeListRecyclerView = (RecyclerView) v.findViewById(R.id.crime_list);
         crimeListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        crimeListRecyclerView.setAdapter(new RecyclerView.Adapter<CrimeHolder>() {
+        mAdapter = new RecyclerView.Adapter<CrimeHolder>() {
             @Override
             public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 return createCrimeViewHolder(parent, viewType);
@@ -52,7 +55,9 @@ public class CrimeListFragment extends Fragment {
             public int getItemCount() {
                 return mCrimeLab.getCrimesCount();
             }
-        });
+        };
+
+        crimeListRecyclerView.setAdapter(mAdapter);
 
         return v;
     }
@@ -127,7 +132,7 @@ public class CrimeListFragment extends Fragment {
         Log.d(TAG, "onDestroy");
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
+    private class CrimeHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckbox;
@@ -135,6 +140,7 @@ public class CrimeListFragment extends Fragment {
 
         public CrimeHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.crimelist_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crimelist_date);
             mSolvedCheckbox = (CheckBox) itemView.findViewById(R.id.crimelist_solved);
@@ -156,6 +162,38 @@ public class CrimeListFragment extends Fragment {
                 Log.d(TAG, "setSolved(" + mCrime.toString() + ", " + isChecked + ")");
                 mCrime.setSolved(isChecked);
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent i = CrimeActivity.newIntent(getActivity(), mCrime.build());
+            CrimeListFragment.this.startActivityForResult(i, EDIT_CRIME_REQUEST);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.format("onActivityResult(%d, %d, %s)", requestCode, resultCode, data));
+
+        if (requestCode == EDIT_CRIME_REQUEST && resultCode == Activity.RESULT_OK) {
+            Log.d(TAG, "Result found...");
+
+            Crime crime = CrimeFragment.extractCrime(data);
+            if (crime == null)
+                return;
+
+            int pos = 0;
+
+            for (Crime.Builder builder : mCrimeLab.getCrimesBuilderList()) {
+                if (builder.getId().equals(crime.getId())) {
+                    builder.mergeFrom(crime);
+                    break;
+                }
+                ++pos;
+            }
+
+            mAdapter.notifyItemChanged(pos);
         }
     }
 }
