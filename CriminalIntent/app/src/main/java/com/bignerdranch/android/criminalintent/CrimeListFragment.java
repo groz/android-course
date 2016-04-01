@@ -1,6 +1,5 @@
 package com.bignerdranch.android.criminalintent;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,17 +14,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
-import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.CrimeLab;
+import com.bignerdranch.android.criminalintent.models.CrimeLab;
+import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
 
 import java.util.Date;
 import java.util.UUID;
 
 public class CrimeListFragment extends Fragment {
+    private static final int EDIT_CRIME_REQUEST = 101;
+
     private static String TAG = "CrimeListFragment";
-    private static String CRIME_LAB_TAG = "CRIME_LAB";
-    private static int EDIT_CRIME_REQUEST = 101;
-    private CrimeLab.Builder mCrimeLab;
+    private CrimeLab mCrimeLab = CrimeLab.Instance;
     private RecyclerView.Adapter<CrimeHolder> mAdapter;
 
     @Nullable
@@ -69,19 +68,13 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void populateViewHolder(CrimeHolder holder, int position) {
-        Crime.Builder crime = mCrimeLab.getCrimesBuilder(position);
+        Crime.Builder crime = mCrimeLab.getCrime(position);
         holder.bindTo(crime);
     }
 
     private void initState(Bundle savedInstanceState) {
-        try {
-            byte[] data = savedInstanceState.getByteArray(CRIME_LAB_TAG);
-            mCrimeLab = CrimeLab.parseFrom(data).toBuilder();
-            Log.d(TAG, "Loaded saved state: " + mCrimeLab.toString());
-        } catch (Exception e) {
-            Log.d(TAG, "Couldn't load state. Creating anew...", e);
-
-            mCrimeLab = CrimeLab.newBuilder();
+        if (mCrimeLab.getCrimesCount() == 0) {
+            Log.d(TAG, "CrimeLab is empty. Filling with data");
 
             for (int i = 0; i < 100; ++i) {
                 Crime.Builder crime = Crime.newBuilder()
@@ -89,8 +82,10 @@ public class CrimeListFragment extends Fragment {
                         .setTitle("Crime # " + i)
                         .setSolved(i % 2 == 0)
                         .setCreatedDate(new Date().getTime());
-                mCrimeLab.addCrimes(crime);
+                mCrimeLab.addCrime(crime);
             }
+        } else {
+            Log.d(TAG, "CrimeLab already filled out.");
         }
     }
 
@@ -98,8 +93,6 @@ public class CrimeListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
-
-        outState.putByteArray(CRIME_LAB_TAG, mCrimeLab.build().toByteArray());
     }
 
     @Override
@@ -166,34 +159,32 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent i = CrimeActivity.newIntent(getActivity(), mCrime.build());
-            CrimeListFragment.this.startActivityForResult(i, EDIT_CRIME_REQUEST);
+            Intent i = CrimeActivity.newIntent(getActivity(), UUID.fromString(mCrime.getId()));
+            startActivityForResult(i, EDIT_CRIME_REQUEST);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.format("onActivityResult(%d, %d, %s)", requestCode, resultCode, data));
+        Log.d(TAG, "onActivityResult");
 
-        if (requestCode == EDIT_CRIME_REQUEST && resultCode == Activity.RESULT_OK) {
-            Log.d(TAG, "Result found...");
-
-            Crime crime = CrimeFragment.extractCrime(data);
-            if (crime == null)
-                return;
-
-            int pos = 0;
-
-            for (Crime.Builder builder : mCrimeLab.getCrimesBuilderList()) {
-                if (builder.getId().equals(crime.getId())) {
-                    builder.mergeFrom(crime);
-                    break;
+        switch (requestCode) {
+            case EDIT_CRIME_REQUEST:
+                UUID editedId = CrimeFragment.getCrimeId(data);
+                int pos = mCrimeLab.getCrimePosById(editedId);
+                if (pos != -1) {
+                    String msg = String.format("onActivityResult: updating item #%d...", pos);
+                    Log.d(TAG, msg);
+                    mAdapter.notifyItemChanged(pos);
+                } else {
+                    String msg = String.format("onActivityResult: updated item #%d not found", pos);
+                    Log.d(TAG, msg);
                 }
-                ++pos;
-            }
-
-            mAdapter.notifyItemChanged(pos);
+                break;
+            default:
+                String msg = String.format("Invalid request code: %d", requestCode);
+                Log.e(TAG, "onActivityResult", new IllegalArgumentException(msg));
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.criminalintent.model;
+package com.bignerdranch.android.criminalintent.models.raw;
 
 message Crime {
   required string id = 1;

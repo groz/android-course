@@ -2,12 +2,12 @@ package com.bignerdranch.android.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
-import com.bignerdranch.android.criminalintent.model.CriminalIntentProtos.Crime;
-import com.google.protobuf.InvalidProtocolBufferException;
+import java.util.UUID;
 
 public class CrimeActivity extends SingleFragmentActivity {
+    private final static String CRIME_ID_EXTRA = "CRIME_ID_EXTRA";
+
     @Override
     protected String getLogTag() {
         return "CrimeActivity";
@@ -15,24 +15,13 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     @Override
     protected CrimeFragment createFragment() {
-        byte[] data = getIntent().getByteArrayExtra(CRIME_DATA_EXTRA);
-        Crime crime = null;
-
-        try {
-            crime = (data != null) ? Crime.parseFrom(data) : null;
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
-            // TODO: init crime or fail here?
-        }
-
-        return CrimeFragment.newInstance(crime);
+        UUID crimeId = (UUID)getIntent().getSerializableExtra(CRIME_ID_EXTRA);
+        return CrimeFragment.newInstance(crimeId);
     }
 
-    private final static String CRIME_DATA_EXTRA = "CRIME_DATA_EXTRA";
-
-    public static Intent newIntent(Context ctx, Crime crime) {
+    public static Intent newIntent(Context ctx, UUID crimeId) {
         Intent intent = new Intent(ctx, CrimeActivity.class);
-        intent.putExtra(CRIME_DATA_EXTRA, crime.toByteArray());
+        intent.putExtra(CRIME_ID_EXTRA, crimeId);
         return intent;
     }
 }
