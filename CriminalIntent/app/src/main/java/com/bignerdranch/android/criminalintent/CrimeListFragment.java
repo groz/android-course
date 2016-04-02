@@ -159,7 +159,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent i = CrimeActivity.newIntent(getActivity(), UUID.fromString(mCrime.getId()));
+            Intent i = CrimePagerActivity.newIntent(getActivity(), UUID.fromString(mCrime.getId()));
             startActivityForResult(i, EDIT_CRIME_REQUEST);
         }
     }
