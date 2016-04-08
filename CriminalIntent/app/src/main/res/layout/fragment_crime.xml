@@ -28,8 +28,7 @@
         android:id="@+id/crime_date_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="21 March, 2016"
-        android:enabled="false"/>
+        tools:text="21 March, 2016"/>
 
     <CheckBox
         android:id="@+id/solved_checkbox"

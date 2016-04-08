@@ -19,10 +19,14 @@ import android.widget.EditText;
 import com.bignerdranch.android.criminalintent.models.CrimeLab;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
+    private static final int DATE_UPDATE_REQUEST = 111;
+    private static final String DATE_DIALOG_TAG = "DATE_DIALOG_TAG";
     private static String TAG = "CrimeFragment";
     private static String CRIME_ID_EXTRA = "CRIME_STATE";
 
@@ -92,6 +96,16 @@ public class CrimeFragment extends Fragment {
         if (mCrimeRef == null) {
             mCrimeRef = loadCrime(savedInstanceState);
         }
+
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTime dt = new DateTime(mCrimeRef.getCreatedDate());
+                DateDialogFragment dateDialogFragment = DateDialogFragment.newInstance(dt);
+                dateDialogFragment.setTargetFragment(CrimeFragment.this, DATE_UPDATE_REQUEST);
+                dateDialogFragment.show(getFragmentManager(), DATE_DIALOG_TAG);
+            }
+        });
 
         // set handlers
         mCrimeTitle.addTextChangedListener(new TextWatcher() {

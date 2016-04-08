@@ -125,7 +125,8 @@ public class CrimeListFragment extends Fragment {
         Log.d(TAG, "onDestroy");
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    private class CrimeHolder extends RecyclerView.ViewHolder implements
+            CompoundButton.OnCheckedChangeListener, View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckbox;
