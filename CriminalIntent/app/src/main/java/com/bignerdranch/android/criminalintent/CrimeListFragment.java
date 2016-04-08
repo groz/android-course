@@ -17,7 +17,8 @@ import android.widget.TextView;
 import com.bignerdranch.android.criminalintent.models.CrimeLab;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.UUID;
 
 public class CrimeListFragment extends Fragment {
@@ -81,7 +82,7 @@ public class CrimeListFragment extends Fragment {
                         .setId(UUID.randomUUID().toString())
                         .setTitle("Crime # " + i)
                         .setSolved(i % 2 == 0)
-                        .setCreatedDate(new Date().getTime());
+                        .setCreatedDate(DateTime.now().getMillis());
                 mCrimeLab.addCrime(crime);
             }
         } else {
@@ -146,7 +147,8 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
 
             mTitleTextView.setText(crime.getTitle());
-            mDateTextView.setText(new Date(crime.getCreatedDate()).toString());
+            DateTime dt = new DateTime(crime.getCreatedDate());
+            mDateTextView.setText(dt.toString());
             mSolvedCheckbox.setChecked(crime.getSolved());
         }
 

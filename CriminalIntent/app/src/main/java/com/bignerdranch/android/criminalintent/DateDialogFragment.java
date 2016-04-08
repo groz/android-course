@@ -1,7 +1,9 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +26,10 @@ public class DateDialogFragment extends AppCompatDialogFragment {
         DateDialogFragment dialogFragment = new DateDialogFragment();
         dialogFragment.setArguments(args);
         return dialogFragment;
+    }
+
+    public static DateTime extractTime(Intent data) {
+        return (DateTime)data.getSerializableExtra(DATE_ARG);
     }
 
     @NonNull
@@ -56,7 +62,13 @@ public class DateDialogFragment extends AppCompatDialogFragment {
                                     dp.getDayOfMonth(),
                                     0, 0
                             );
-                            Log.d(TAG, dt.toString());
+                            Intent data = new Intent();
+                            data.putExtra(DATE_ARG, dt);
+                            getTargetFragment().onActivityResult(
+                                    getTargetRequestCode(),
+                                    Activity.RESULT_OK,
+                                    data);
+                            Log.d(TAG, "Sent " + getTargetRequestCode() + " " + getTargetFragment());
                         }
                     }
                 })

@@ -21,7 +21,6 @@ import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.C
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
@@ -67,7 +66,7 @@ public class CrimeFragment extends Fragment {
         Crime.Builder newCrime = Crime.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setTitle("")
-                .setCreatedDate(new Date().getTime())
+                .setCreatedDate(DateTime.now().getMillis())
                 .setSolved(false);
 
         mCrimeLab.addCrime(newCrime);
@@ -134,6 +133,17 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult");
+
+        if (requestCode == DATE_UPDATE_REQUEST && resultCode == Activity.RESULT_OK) {
+            DateTime result = DateDialogFragment.extractTime(data);
+            mCrimeRef.setCreatedDate(result.getMillis());
+            setDateButtonText();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
@@ -144,13 +154,17 @@ public class CrimeFragment extends Fragment {
         super.onResume();
         Log.d(TAG, "onResume");
 
-
         // remember id for result
         Activity parent = getActivity();
         Intent resultData = new Intent();
         UUID crimeId = UUID.fromString(mCrimeRef.getId());
         resultData.putExtra(CRIME_ID_EXTRA, crimeId);
         parent.setResult(Activity.RESULT_OK, resultData);
+    }
+
+    private void setDateButtonText() {
+        DateTime dt = new DateTime(mCrimeRef.getCreatedDate());
+        mDateButton.setText(dt.toString());
     }
 
     @Override
@@ -160,7 +174,7 @@ public class CrimeFragment extends Fragment {
 
         mCrimeTitle.setText(mCrimeRef.getTitle());
         mSolvedCheckbox.setChecked(mCrimeRef.getSolved());
-        mDateButton.setText(new Date(mCrimeRef.getCreatedDate()).toString());
+        setDateButtonText();
     }
 
     @Override
