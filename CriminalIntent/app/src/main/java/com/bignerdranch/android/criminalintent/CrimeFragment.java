@@ -138,7 +138,9 @@ public class CrimeFragment extends Fragment {
 
         if (requestCode == DATE_UPDATE_REQUEST && resultCode == Activity.RESULT_OK) {
             DateTime result = DateDialogFragment.extractTime(data);
-            mCrimeRef.setCreatedDate(result.getMillis());
+            DateTime currentDateTime = new DateTime(mCrimeRef.getCreatedDate());
+            DateTime newDateTime = result.withMillisOfDay(currentDateTime.getMillisOfDay());
+            mCrimeRef.setCreatedDate(newDateTime.getMillis());
             setDateButtonText();
         }
     }
