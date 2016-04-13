@@ -5,4 +5,9 @@
     <string name="crime_title">Title</string>
     <string name="crime_details">Details</string>
     <string name="crime_solved_label">Solved</string>
+    <string name="menu_item_new_crime">New</string>
+    <string name="menu_item_show_subtitle">Show subtitle</string>
+    <string name="subtitle_crime_count_format">Count: %d</string>
+    <string name="hide_subtitle">Hide</string>
+    <string name="show_subtitle">Show</string>
 </resources>
