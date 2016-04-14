@@ -119,6 +119,7 @@ public class CrimeFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                setResult();
             }
         });
 
@@ -126,6 +127,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCrimeRef.setSolved(isChecked);
+                setResult();
             }
         });
 
@@ -151,17 +153,19 @@ public class CrimeFragment extends Fragment {
         Log.d(TAG, "onSaveInstanceState");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-
+    private void setResult() {
         // remember id for result
         Activity parent = getActivity();
         Intent resultData = new Intent();
         UUID crimeId = UUID.fromString(mCrimeRef.getId());
         resultData.putExtra(CRIME_ID_EXTRA, crimeId);
         parent.setResult(Activity.RESULT_OK, resultData);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
     }
 
     private void setDateButtonText() {

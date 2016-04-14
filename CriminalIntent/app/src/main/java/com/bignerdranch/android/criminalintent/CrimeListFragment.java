@@ -29,6 +29,8 @@ public class CrimeListFragment extends Fragment {
     private static final int EDIT_CRIME_REQUEST = 101;
 
     private static String TAG = "CrimeListFragment";
+    private static String SUBTITLE_VISIBLE_EXTRA = "SUBTITLE_VISIBLE_EXTRA";
+
     private CrimeLab mCrimeLab = CrimeLab.Instance;
     private RecyclerView.Adapter<CrimeHolder> mAdapter;
     private boolean mSubtitleVisible;
@@ -37,6 +39,8 @@ public class CrimeListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.d(TAG, "onCreate");
+        Log.d(TAG, savedInstanceState == null ? "null" : savedInstanceState.toString());
     }
 
     @Override
@@ -51,8 +55,8 @@ public class CrimeListFragment extends Fragment {
         } else {
             subtitleMenu.setTitle(R.string.show_subtitle);
         }
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -96,6 +100,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
+        Log.d(TAG, savedInstanceState == null ? "null" : savedInstanceState.toString());
 
         View v = inflater.inflate(R.layout.fragment_crimelist, container, false);
 
@@ -152,12 +157,18 @@ public class CrimeListFragment extends Fragment {
         } else {
             Log.d(TAG, "CrimeLab already filled out.");
         }
+
+        if (savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(SUBTITLE_VISIBLE_EXTRA, false);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
+
+        outState.putBoolean(SUBTITLE_VISIBLE_EXTRA, mSubtitleVisible);
     }
 
     @Override
@@ -165,7 +176,12 @@ public class CrimeListFragment extends Fragment {
         super.onResume();
         Log.d(TAG, "onResume");
 
+        updateUI();
         updateSubtitle();
+    }
+
+    private void updateUI() {
+
     }
 
     @Override
@@ -209,7 +225,6 @@ public class CrimeListFragment extends Fragment {
         }
 
         public void bindTo(Crime.Builder crime) {
-            Log.d(TAG, "bindTo(" + crime.toString() + ")");
             mCrime = crime;
 
             mTitleTextView.setText(crime.getTitle());
@@ -221,13 +236,13 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (mCrime != null) {
-                Log.d(TAG, "setSolved(" + mCrime.toString() + ", " + isChecked + ")");
                 mCrime.setSolved(isChecked);
             }
         }
 
         @Override
         public void onClick(View v) {
+            Log.d("onClick", mCrime.getTitle());
             Intent i = CrimePagerActivity.newIntent(getActivity(), UUID.fromString(mCrime.getId()));
             startActivityForResult(i, EDIT_CRIME_REQUEST);
         }
