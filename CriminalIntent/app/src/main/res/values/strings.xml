@@ -7,7 +7,10 @@
     <string name="crime_solved_label">Solved</string>
     <string name="menu_item_new_crime">New</string>
     <string name="menu_item_show_subtitle">Show subtitle</string>
-    <string name="subtitle_crime_count_format">Count: %d</string>
+    <plurals name="subtitle_crime_count_format">
+        <item quantity="one">Count: %1$s crime</item>
+        <item quantity="other">Count: %1$s crimes</item>
+    </plurals>
     <string name="hide_subtitle">Hide</string>
     <string name="show_subtitle">Show</string>
 </resources>
