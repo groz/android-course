@@ -1,7 +1,9 @@
 package com.bignerdranch.android.criminalintent.models;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.bignerdranch.android.criminalintent.CriminalIntentApp;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos;
 
 import java.util.List;
@@ -9,11 +11,13 @@ import java.util.UUID;
 
 public class CrimeLab {
     private CriminalIntentProtos.CrimeLab.Builder mCrimeLabRaw;
+    private Context mContext;
 
     public final static CrimeLab Instance = new CrimeLab();
 
     private CrimeLab() {
         mCrimeLabRaw = CriminalIntentProtos.CrimeLab.newBuilder();
+        mContext = CriminalIntentApp.getContext();
     }
 
     @Nullable
