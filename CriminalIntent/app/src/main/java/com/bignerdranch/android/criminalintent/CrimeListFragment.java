@@ -144,21 +144,6 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void initState(Bundle savedInstanceState) {
-        if (mCrimeLab.getCrimesCount() == 0) {
-            Log.d(TAG, "CrimeLab is empty. Filling with data");
-
-            for (int i = 0; i < 100; ++i) {
-                Crime.Builder crime = Crime.newBuilder()
-                        .setId(UUID.randomUUID().toString())
-                        .setTitle("Crime # " + i)
-                        .setSolved(i % 2 == 0)
-                        .setCreatedDate(DateTime.now().getMillis());
-                mCrimeLab.addCrime(crime);
-            }
-        } else {
-            Log.d(TAG, "CrimeLab already filled out.");
-        }
-
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SUBTITLE_VISIBLE_EXTRA, false);
         }
@@ -170,6 +155,7 @@ public class CrimeListFragment extends Fragment {
         Log.d(TAG, "onSaveInstanceState");
 
         outState.putBoolean(SUBTITLE_VISIBLE_EXTRA, mSubtitleVisible);
+        mCrimeLab.saveAll();
     }
 
     @Override

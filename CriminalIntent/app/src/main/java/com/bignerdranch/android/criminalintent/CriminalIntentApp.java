@@ -5,16 +5,15 @@ import android.content.Context;
 
 public class CriminalIntentApp extends Application {
 
-    private static Context context;
+    private static Context sContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+        sContext = getApplicationContext();
     }
 
-    // possible race condition
     public static Context getContext() {
-        return context;
+        return sContext;
     }
 }
