@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -238,21 +239,34 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult");
+        Log.d(TAG, String.format("onActivityResult: %d, %d", requestCode, resultCode));
 
         switch (requestCode) {
-            case EDIT_CRIME_REQUEST:
-                UUID editedId = CrimeFragment.getCrimeId(data);
-                int pos = mCrimeLab.getCrimePosById(editedId);
-                if (pos != -1) {
-                    String msg = String.format("onActivityResult: updating item #%d...", pos);
-                    Log.d(TAG, msg);
-                    mAdapter.notifyItemChanged(pos);
-                } else {
-                    String msg = String.format("onActivityResult: updated item #%d not found", pos);
-                    Log.d(TAG, msg);
+            case EDIT_CRIME_REQUEST: {
+                switch (resultCode) {
+                    case Activity.RESULT_OK: {
+                        UUID editedId = CrimeFragment.getCrimeId(data);
+                        int pos = mCrimeLab.getCrimePosById(editedId);
+                        if (pos != -1) {
+                            String msg = String.format("onActivityResult: updating item #%d...", pos);
+                            Log.d(TAG, msg);
+                            mAdapter.notifyItemChanged(pos);
+                        } else {
+                            String msg = String.format("onActivityResult: updated item #%d not found", pos);
+                            Log.d(TAG, msg);
+                        }
+                    }
+                    break;
+                    case CrimeFragment.DELETE_ACTION_RESULT: {
+                        UUID crimeId = CrimeFragment.getCrimeId(data);
+                        mCrimeLab.deleteCrime(crimeId);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    break;
                 }
-                break;
+                mCrimeLab.saveAll();
+            }
+            break;
             default:
                 String msg = String.format("Invalid request code: %d", requestCode);
                 Log.e(TAG, "onActivityResult", new IllegalArgumentException(msg));

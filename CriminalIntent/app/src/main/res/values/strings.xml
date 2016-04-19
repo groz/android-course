@@ -13,4 +13,5 @@
     </plurals>
     <string name="hide_subtitle">Hide</string>
     <string name="show_subtitle">Show</string>
+    <string name="menu_item_delete_crime">Delete</string>
 </resources>

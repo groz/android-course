@@ -2,8 +2,6 @@ package com.bignerdranch.android.criminalintent.models;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,7 +9,6 @@ import android.util.Log;
 import com.bignerdranch.android.criminalintent.CriminalIntentApp;
 import com.bignerdranch.android.criminalintent.database.CrimeBaseHelper;
 import com.bignerdranch.android.criminalintent.database.CrimeCursor;
-import com.bignerdranch.android.criminalintent.database.CrimeDbSchema;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos;
 
 import java.util.ArrayList;
@@ -19,8 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import static com.bignerdranch.android.criminalintent.database.CrimeDbSchema.*;
-import static com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.*;
+import static com.bignerdranch.android.criminalintent.database.CrimeDbSchema.CrimeTable;
+import static com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
+import static com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.CrimeOrBuilder;
 
 public class CrimeLab {
     private static final String TAG = "CrimeLab";
@@ -37,7 +35,8 @@ public class CrimeLab {
         mContext = CriminalIntentApp.getContext();
         mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase();
 
-        loadAllFromDatabase();
+        mCrimeLabRaw.addAllCrimes(loadAllFromDatabase());
+        Log.d(TAG, String.format("Total crimes: %d", mCrimeLabRaw.getCrimesCount()));
     }
 
     private ContentValues toContentValues(CrimeOrBuilder crime) {
@@ -50,12 +49,14 @@ public class CrimeLab {
     }
 
     public void saveAll() {
+        HashSet<Crime> currentDataset = new HashSet<>(loadAllFromDatabase());
+
         for (Crime crime : mCrimeLabRaw.getCrimesList()) {
             ContentValues values = toContentValues(crime);
 
             int updated = mDatabase.update(CrimeTable.NAME, values,
                     String.format("%s = ?", CrimeTable.Columns.UUID),
-                    new String[] {crime.getId()});
+                    new String[]{crime.getId()});
 
             if (updated == 0) {
                 Log.d(TAG, "inserting...");
@@ -63,10 +64,19 @@ public class CrimeLab {
             } else {
                 Log.d(TAG, String.format("updated: %d", updated));
             }
+
+            currentDataset.remove(crime);
+        }
+
+        for (Crime crime : currentDataset) {
+            int count = mDatabase.delete(CrimeTable.NAME,
+                    String.format("%s = ?", CrimeTable.Columns.UUID),
+                    new String[]{crime.getId()});
+            Log.d(TAG, String.format("deleted: %d", count));
         }
     }
 
-    private void loadAllFromDatabase() {
+    private List<Crime> loadAllFromDatabase() {
         CrimeCursor cursor = new CrimeCursor(mDatabase.query(CrimeTable.NAME,
                 null,
                 null,
@@ -76,16 +86,20 @@ public class CrimeLab {
                 null
         ));
 
+        ArrayList<Crime> result = new ArrayList<>();
+
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                Crime.Builder crime = cursor.getCrime();
-                mCrimeLabRaw.addCrimes(crime);
+                Crime crime = cursor.getCrime();
+                result.add(crime);
                 cursor.moveToNext();
             }
         } finally {
             cursor.close();
         }
+
+        return result;
     }
 
     @Nullable
@@ -124,5 +138,12 @@ public class CrimeLab {
 
     public void addCrime(Crime.Builder crime) {
         mCrimeLabRaw.addCrimes(crime);
+    }
+
+    public void deleteCrime(UUID crimeId) {
+        int pos = getCrimePosById(crimeId);
+        if (pos != -1) {
+            mCrimeLabRaw.removeCrimes(pos);
+        }
     }
 }

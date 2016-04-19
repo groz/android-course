@@ -9,6 +9,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,6 +27,8 @@ import org.joda.time.DateTime;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
+    public final static int DELETE_ACTION_RESULT = 1414;
+
     private static final int DATE_UPDATE_REQUEST = 111;
     private static final String DATE_DIALOG_TAG = "DATE_DIALOG_TAG";
     private static String TAG = "CrimeFragment";
@@ -50,6 +55,28 @@ public class CrimeFragment extends Fragment {
         Log.d(TAG, "onCreate");
 
         mCrimeRef = loadCrime(savedInstanceState, getArguments());
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_crime:
+                UUID crimeId = UUID.fromString(mCrimeRef.getId());
+                mCrimeLab.deleteCrime(crimeId);
+                setResult(DELETE_ACTION_RESULT);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private Crime.Builder loadCrime(Bundle... bundles) {
@@ -154,12 +181,17 @@ public class CrimeFragment extends Fragment {
     }
 
     private void setResult() {
+        setResult(Activity.RESULT_OK);
+    }
+
+    private void setResult(int result) {
+        Log.d(TAG, String.format("setResult: %s, %d", mCrimeRef.getId(), result));
         // remember id for result
         Activity parent = getActivity();
         Intent resultData = new Intent();
         UUID crimeId = UUID.fromString(mCrimeRef.getId());
         resultData.putExtra(CRIME_ID_EXTRA, crimeId);
-        parent.setResult(Activity.RESULT_OK, resultData);
+        parent.setResult(result, resultData);
     }
 
     @Override
@@ -203,6 +235,6 @@ public class CrimeFragment extends Fragment {
 
     @Nullable
     public static UUID getCrimeId(Intent i) {
-        return (UUID)i.getSerializableExtra(CRIME_ID_EXTRA);
+        return (UUID) i.getSerializableExtra(CRIME_ID_EXTRA);
     }
 }

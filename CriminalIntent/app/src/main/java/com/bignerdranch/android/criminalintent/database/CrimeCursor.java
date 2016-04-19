@@ -11,7 +11,7 @@ public class CrimeCursor extends CursorWrapper {
         super(cursor);
     }
 
-    public Crime.Builder getCrime() {
+    public Crime getCrime() {
         String uuid = getString(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.UUID));
         String title = getString(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.TITLE));
         long date = getLong(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.DATE));
@@ -21,7 +21,8 @@ public class CrimeCursor extends CursorWrapper {
                 .setId(uuid)
                 .setTitle(title)
                 .setCreatedDate(date)
-                .setSolved(solved);
+                .setSolved(solved)
+                .build();
     }
 
 }
