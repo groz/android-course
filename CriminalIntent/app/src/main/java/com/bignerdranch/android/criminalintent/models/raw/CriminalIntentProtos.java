@@ -59,15 +59,15 @@ public final class CriminalIntentProtos {
     boolean getSolved();
 
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     boolean hasSuspect();
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     java.lang.String getSuspect();
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     com.google.protobuf.ByteString
         getSuspectBytes();
@@ -309,13 +309,13 @@ public final class CriminalIntentProtos {
     public static final int SUSPECT_FIELD_NUMBER = 5;
     private java.lang.Object suspect_;
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     public boolean hasSuspect() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     public java.lang.String getSuspect() {
       java.lang.Object ref = suspect_;
@@ -332,7 +332,7 @@ public final class CriminalIntentProtos {
       }
     }
     /**
-     * <code>required string suspect = 5;</code>
+     * <code>optional string suspect = 5;</code>
      */
     public com.google.protobuf.ByteString
         getSuspectBytes() {
@@ -374,10 +374,6 @@ public final class CriminalIntentProtos {
         return false;
       }
       if (!hasSolved()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasSuspect()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -665,10 +661,6 @@ public final class CriminalIntentProtos {
           
           return false;
         }
-        if (!hasSuspect()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -909,13 +901,13 @@ public final class CriminalIntentProtos {
 
       private java.lang.Object suspect_ = "";
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public boolean hasSuspect() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public java.lang.String getSuspect() {
         java.lang.Object ref = suspect_;
@@ -932,7 +924,7 @@ public final class CriminalIntentProtos {
         }
       }
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public com.google.protobuf.ByteString
           getSuspectBytes() {
@@ -948,7 +940,7 @@ public final class CriminalIntentProtos {
         }
       }
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public Builder setSuspect(
           java.lang.String value) {
@@ -961,7 +953,7 @@ public final class CriminalIntentProtos {
         return this;
       }
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public Builder clearSuspect() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -970,7 +962,7 @@ public final class CriminalIntentProtos {
         return this;
       }
       /**
-       * <code>required string suspect = 5;</code>
+       * <code>optional string suspect = 5;</code>
        */
       public Builder setSuspectBytes(
           com.google.protobuf.ByteString value) {
@@ -1705,7 +1697,7 @@ public final class CriminalIntentProtos {
       "2com.bignerdranch.android.criminalintent" +
       ".models.raw\"X\n\005Crime\022\n\n\002id\030\001 \002(\t\022\r\n\005titl" +
       "e\030\002 \002(\t\022\023\n\013createdDate\030\003 \002(\003\022\016\n\006solved\030\004" +
-      " \002(\010\022\017\n\007suspect\030\005 \002(\t\"U\n\010CrimeLab\022I\n\006cri" +
+      " \002(\010\022\017\n\007suspect\030\005 \001(\t\"U\n\010CrimeLab\022I\n\006cri" +
       "mes\030\001 \003(\01329.com.bignerdranch.android.cri" +
       "minalintent.models.raw.Crime"
     };
