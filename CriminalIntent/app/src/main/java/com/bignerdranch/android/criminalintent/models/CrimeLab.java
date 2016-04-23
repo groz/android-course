@@ -50,6 +50,7 @@ public class CrimeLab {
     }
 
     public void saveAll() {
+        // TODO: fix this method
         HashSet<Crime> currentDataset = new HashSet<>(loadAllFromDatabase());
 
         for (Crime crime : mCrimeLabRaw.getCrimesList()) {
