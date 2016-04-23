@@ -57,6 +57,20 @@ public final class CriminalIntentProtos {
      * <code>required bool solved = 4;</code>
      */
     boolean getSolved();
+
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    boolean hasSuspect();
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    java.lang.String getSuspect();
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getSuspectBytes();
   }
   /**
    * Protobuf type {@code com.bignerdranch.android.criminalintent.models.raw.Crime}
@@ -130,6 +144,12 @@ public final class CriminalIntentProtos {
             case 32: {
               bitField0_ |= 0x00000008;
               solved_ = input.readBool();
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              suspect_ = bs;
               break;
             }
           }
@@ -286,11 +306,54 @@ public final class CriminalIntentProtos {
       return solved_;
     }
 
+    public static final int SUSPECT_FIELD_NUMBER = 5;
+    private java.lang.Object suspect_;
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    public boolean hasSuspect() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    public java.lang.String getSuspect() {
+      java.lang.Object ref = suspect_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          suspect_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string suspect = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSuspectBytes() {
+      java.lang.Object ref = suspect_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        suspect_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       id_ = "";
       title_ = "";
       createdDate_ = 0L;
       solved_ = false;
+      suspect_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -314,6 +377,10 @@ public final class CriminalIntentProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasSuspect()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -332,6 +399,9 @@ public final class CriminalIntentProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(4, solved_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getSuspectBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -357,6 +427,10 @@ public final class CriminalIntentProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(4, solved_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getSuspectBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -483,6 +557,8 @@ public final class CriminalIntentProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         solved_ = false;
         bitField0_ = (bitField0_ & ~0x00000008);
+        suspect_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -527,6 +603,10 @@ public final class CriminalIntentProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.solved_ = solved_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.suspect_ = suspect_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -559,6 +639,11 @@ public final class CriminalIntentProtos {
         if (other.hasSolved()) {
           setSolved(other.getSolved());
         }
+        if (other.hasSuspect()) {
+          bitField0_ |= 0x00000010;
+          suspect_ = other.suspect_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -577,6 +662,10 @@ public final class CriminalIntentProtos {
           return false;
         }
         if (!hasSolved()) {
+          
+          return false;
+        }
+        if (!hasSuspect()) {
           
           return false;
         }
@@ -814,6 +903,82 @@ public final class CriminalIntentProtos {
       public Builder clearSolved() {
         bitField0_ = (bitField0_ & ~0x00000008);
         solved_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object suspect_ = "";
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public boolean hasSuspect() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public java.lang.String getSuspect() {
+        java.lang.Object ref = suspect_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            suspect_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSuspectBytes() {
+        java.lang.Object ref = suspect_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          suspect_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public Builder setSuspect(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        suspect_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public Builder clearSuspect() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        suspect_ = getDefaultInstance().getSuspect();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string suspect = 5;</code>
+       */
+      public Builder setSuspectBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        suspect_ = value;
         onChanged();
         return this;
       }
@@ -1538,11 +1703,11 @@ public final class CriminalIntentProtos {
     java.lang.String[] descriptorData = {
       "\n%protobuf/criminal_intent_protos.proto\022" +
       "2com.bignerdranch.android.criminalintent" +
-      ".models.raw\"G\n\005Crime\022\n\n\002id\030\001 \002(\t\022\r\n\005titl" +
+      ".models.raw\"X\n\005Crime\022\n\n\002id\030\001 \002(\t\022\r\n\005titl" +
       "e\030\002 \002(\t\022\023\n\013createdDate\030\003 \002(\003\022\016\n\006solved\030\004" +
-      " \002(\010\"U\n\010CrimeLab\022I\n\006crimes\030\001 \003(\01329.com.b" +
-      "ignerdranch.android.criminalintent.model" +
-      "s.raw.Crime"
+      " \002(\010\022\017\n\007suspect\030\005 \002(\t\"U\n\010CrimeLab\022I\n\006cri" +
+      "mes\030\001 \003(\01329.com.bignerdranch.android.cri" +
+      "minalintent.models.raw.Crime"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1561,7 +1726,7 @@ public final class CriminalIntentProtos {
     internal_static_com_bignerdranch_android_criminalintent_models_raw_Crime_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_com_bignerdranch_android_criminalintent_models_raw_Crime_descriptor,
-        new java.lang.String[] { "Id", "Title", "CreatedDate", "Solved", });
+        new java.lang.String[] { "Id", "Title", "CreatedDate", "Solved", "Suspect", });
     internal_static_com_bignerdranch_android_criminalintent_models_raw_CrimeLab_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_bignerdranch_android_criminalintent_models_raw_CrimeLab_fieldAccessorTable = new
