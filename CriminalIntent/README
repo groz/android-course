@@ -1,2 +1,0 @@
-Regenerate protobuf models:
-$ protoc --java_out=app/src/main/java protobuf/*
