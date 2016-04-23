@@ -16,12 +16,14 @@ public class CrimeCursor extends CursorWrapper {
         String title = getString(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.TITLE));
         long date = getLong(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.DATE));
         boolean solved = getInt(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.SOLVED)) == 1;
+        String suspect = getString(getColumnIndex(CrimeDbSchema.CrimeTable.Columns.SUSPECT));
 
         return Crime.newBuilder()
                 .setId(uuid)
                 .setTitle(title)
                 .setCreatedDate(date)
                 .setSolved(solved)
+                .setSuspect(suspect)
                 .build();
     }
 

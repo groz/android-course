@@ -22,12 +22,13 @@ public class CrimeBaseHelper extends SQLiteOpenHelper{
         Log.d(TAG, "Creating database");
 
         String cmd = String.format(
-                "CREATE TABLE %s (_id integer primary key autoincrement, %s, %s, %s, %s)",
+                "CREATE TABLE %s (_id integer primary key autoincrement, %s, %s, %s, %s, %s)",
                 CrimeTable.NAME,
                 CrimeTable.Columns.UUID,
                 CrimeTable.Columns.TITLE,
                 CrimeTable.Columns.DATE,
-                CrimeTable.Columns.SOLVED
+                CrimeTable.Columns.SOLVED,
+                CrimeTable.Columns.SUSPECT
         );
 
         db.execSQL(cmd);
