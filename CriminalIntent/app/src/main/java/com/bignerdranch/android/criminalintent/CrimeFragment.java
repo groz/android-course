@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -252,6 +253,7 @@ public class CrimeFragment extends Fragment {
         }
 
         mPictureFile = mCrimeLab.getPhotoFile(mCrimeRef);
+        String zz = "but here's the catch', image has to be reasonably sized!";
         Uri pictureLocation = Uri.fromFile(mPictureFile);
 
         final Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -271,6 +273,8 @@ public class CrimeFragment extends Fragment {
         if (pm.resolveActivity(takePicture, PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mCrimePhotoButton.setEnabled(false);
         }
+
+        updatePhotoView();
 
         return v;
     }
@@ -314,6 +318,20 @@ public class CrimeFragment extends Fragment {
                 cursor.close();
             }
         }
+
+        if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK) {
+            updatePhotoView();
+        }
+    }
+
+    void updatePhotoView() {
+        if (mPictureFile == null || !mPictureFile.exists()) {
+            mCrimePhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bmp = PictureUtils.loadScaledBitmap(mPictureFile, 128, 128);
+            mCrimePhotoView.setImageBitmap(bmp);
+        }
+
     }
 
     @Override
