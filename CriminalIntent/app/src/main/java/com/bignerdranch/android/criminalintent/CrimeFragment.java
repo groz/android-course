@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.bignerdranch.android.criminalintent.models.CrimeLab;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
@@ -49,6 +50,8 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private ImageButton mCallButton;
     private Button mReportButton;
+    private ImageView mCrimePhotoView;
+    private ImageButton mCrimePhotoButton;
 
     private CrimeLab mCrimeLab = CrimeLab.Instance;
 
@@ -241,6 +244,17 @@ public class CrimeFragment extends Fragment {
         if (pm.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
+
+        mCrimePhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+
+        mCrimePhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
+
+        mCrimePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: add functionality
+            }
+        });
 
         return v;
     }

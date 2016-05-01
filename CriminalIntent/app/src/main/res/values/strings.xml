@@ -27,4 +27,6 @@
     <string name="crime_report_subject">CriminalIntent Crime Report</string>
     <string name="send_report">Send crime report via</string>
     <string name="crime_call_text">Call suspect</string>
+    <string name="take_picture_of_the_crime">Take picture of the crime</string>
+    <string name="crime_picture">Crime picture</string>
 </resources>
