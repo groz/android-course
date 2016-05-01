@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.bignerdranch.android.criminalintent.models.CrimeLab;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.Crime;
@@ -46,6 +47,7 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckbox;
     private Button mDateButton;
     private Button mSuspectButton;
+    private ImageButton mCallButton;
     private Button mReportButton;
 
     private CrimeLab mCrimeLab = CrimeLab.Instance;
@@ -204,6 +206,16 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mCallButton = (ImageButton)v.findViewById(R.id.crime_call);
+
+        mCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent pickContact = new Intent(Intent.ACTION_PICK,
+                        ContactsContract.Contacts.CONTENT_URI);
+            }
+        });
+
         final Intent pickContact = new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI);
 
@@ -216,8 +228,12 @@ public class CrimeFragment extends Fragment {
         });
 
         String suspect = mCrimeRef.getSuspect();
+
         if (suspect != null && !suspect.trim().isEmpty()) {
             mSuspectButton.setText(suspect);
+            mCallButton.setEnabled(true);
+        } else {
+            mCallButton.setEnabled(false);
         }
 
         PackageManager pm = getActivity().getPackageManager();

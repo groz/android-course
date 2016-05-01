@@ -66,6 +66,16 @@
             android:layout_weight="1"
             style="?android:listSeparatorTextViewStyle"/>
 
+        <ImageButton
+            android:layout_weight="1"
+            android:src="@drawable/ic_call"
+            android:id="@+id/crime_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/crime_report_text"
+            style="?android:listSeparatorTextViewStyle"
+            android:contentDescription="Call suspect" />
+
     </LinearLayout>
 
 </LinearLayout>
