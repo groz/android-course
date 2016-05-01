@@ -3,6 +3,7 @@ package com.bignerdranch.android.criminalintent.models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import com.bignerdranch.android.criminalintent.database.CrimeBaseHelper;
 import com.bignerdranch.android.criminalintent.database.CrimeCursor;
 import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -147,5 +149,16 @@ public class CrimeLab {
         if (pos != -1) {
             mCrimeLabRaw.removeCrimes(pos);
         }
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File picturesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (picturesDir == null) {
+            return null;
+        }
+
+        String imgFilename = String.format("img_%s.jpg", crime.getId());
+        return new File(picturesDir, imgFilename);
     }
 }
