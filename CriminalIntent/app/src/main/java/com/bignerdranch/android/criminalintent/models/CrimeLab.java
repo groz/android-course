@@ -151,7 +151,7 @@ public class CrimeLab {
         }
     }
 
-    public File getPhotoFile(Crime crime) {
+    public File getPhotoFile(CrimeOrBuilder crime) {
         File picturesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         if (picturesDir == null) {

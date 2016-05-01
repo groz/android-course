@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
@@ -32,6 +33,7 @@ import com.bignerdranch.android.criminalintent.models.raw.CriminalIntentProtos.C
 
 import org.joda.time.DateTime;
 
+import java.io.File;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
@@ -39,9 +41,13 @@ public class CrimeFragment extends Fragment {
 
     private static final int DATE_UPDATE_REQUEST = 111;
     private static final int REQUEST_CONTACT = 222;
+    private static final int REQUEST_IMAGE = 333;
+
     private static final String DATE_DIALOG_TAG = "DATE_DIALOG_TAG";
     private static String TAG = "CrimeFragment";
     private static String CRIME_ID_EXTRA = "CRIME_STATE";
+
+    private File mPictureFile = null;
 
     private Crime.Builder mCrimeRef = null;
     private EditText mCrimeTitle;
@@ -245,6 +251,12 @@ public class CrimeFragment extends Fragment {
             mSuspectButton.setEnabled(false);
         }
 
+        mPictureFile = mCrimeLab.getPhotoFile(mCrimeRef);
+        Uri pictureLocation = Uri.fromFile(mPictureFile);
+
+        final Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePicture.putExtra(MediaStore.EXTRA_OUTPUT, pictureLocation);
+
         mCrimePhotoView = (ImageView) v.findViewById(R.id.crime_photo);
 
         mCrimePhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
@@ -252,9 +264,13 @@ public class CrimeFragment extends Fragment {
         mCrimePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: add functionality
+                startActivityForResult(takePicture, REQUEST_IMAGE);
             }
         });
+
+        if (pm.resolveActivity(takePicture, PackageManager.MATCH_DEFAULT_ONLY) == null) {
+            mCrimePhotoButton.setEnabled(false);
+        }
 
         return v;
     }
