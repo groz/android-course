@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     FlowLayout mAnswersContainer;
     TextView mProblemText;
     TextView mTimerText;
+    TextView mStatsText;
 
     // TODO: save state for the items below to get around rotations (Singleton?)
     ProblemGenerator mProblemGenerator;
@@ -36,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI() {
         mTimerText = (TextView) findViewById(R.id.timer_text);
+        mStatsText = (TextView) findViewById(R.id.stats_text);
         mProblemText = (TextView) findViewById(R.id.problem_text);
         mAnswersContainer = (FlowLayout) findViewById(R.id.answers_container);
 
-        final NumberGenerator numGen = new RandomNumberGenerator(10, new Number(0), new Number(100), false);
-        final int nAnswersCount = 4;
+        final NumberGenerator numGen = new RandomNumberGenerator(10, new Number(0), new Number(100),
+                false);
+        final int nAnswersCount = 6;
 
         mProblemGenerator = new CompositeProblemGenerator(new ArrayList<ProblemGenerator>(){{
             add(new BinaryOpProblemGenerator(
@@ -132,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < answers.size(); ++i) {
             renderAnswer(answers.get(i).toString(), i, problem.getCorrectIndex());
         }
+
+        mStatsText.setText(String.format("Stats: %s / %s", mCorrect, mTotal));
     }
 
     private void renderAnswer(String answer, final int answerIndex, final int correctIndex) {

@@ -9,7 +9,7 @@ public final class Number implements Comparable<Number> {
     private final int mDenominator;
 
     private static int gcd(int a, int b) {
-        return BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).intValue();
+        return BigInteger.valueOf(Math.abs(a)).gcd(BigInteger.valueOf(Math.abs(b))).intValue();
     }
 
     public static Number fromInt(int a) {
@@ -29,12 +29,20 @@ public final class Number implements Comparable<Number> {
         if (mDenominator == 1)
             return this;
 
+        int num = mNumerator;
+        int den = mDenominator;
+
+        if (mDenominator < 0) {
+            num *= -1;
+            den *= -1;
+        }
+
         int gcd = gcd(mNumerator, mDenominator);
 
         if (gcd == 1)
             return this;
 
-        return new Number(mNumerator / gcd, mDenominator / gcd);
+        return new Number(num / gcd, den / gcd);
     }
 
     @Override

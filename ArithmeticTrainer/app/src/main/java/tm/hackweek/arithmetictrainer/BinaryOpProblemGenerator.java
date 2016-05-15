@@ -25,7 +25,7 @@ public class BinaryOpProblemGenerator extends ProblemGenerator {
         List<Number> answers = new ArrayList<>();
         answers.add(correctResult);
 
-        for (int i = 0; i < mAnswersCount; ++i) {
+        for (int i = 1; i < mAnswersCount; ++i) {
             Number result;
 
             do {
