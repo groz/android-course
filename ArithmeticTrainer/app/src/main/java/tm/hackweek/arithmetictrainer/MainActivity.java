@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         final NumberGenerator numGen = new RandomNumberGenerator(10, new Number(0), new Number(100),
                 false);
-        final int nAnswersCount = 6;
+        final int nAnswersCount = 8;
 
         mProblemGenerator = new CompositeProblemGenerator(new ArrayList<ProblemGenerator>(){{
             add(new BinaryOpProblemGenerator(

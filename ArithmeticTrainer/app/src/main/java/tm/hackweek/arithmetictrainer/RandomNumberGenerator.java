@@ -12,14 +12,18 @@ public class RandomNumberGenerator implements NumberGenerator {
         mMin = min;
         mMax = max;
         mAllowFractions = allowFractions;
-        rng = new Random(seed);
+        rng = seed == 0 ? new Random() : new Random(seed);
     }
 
     @Override
     public Number generate() {
-        // TODO: implement this correctly accounting for min, max, allowFractions
-        int num = rng.nextInt();
-        int den = rng.nextInt();
-        return new Number(num, den);
+        // get bounds to common denominator
+        // generate random number between nominators
+        // return nom/denom
+        int den = mMin.getDenominator() * mMax.getDenominator();
+        int minNum = mMin.getNumerator() * mMax.getDenominator();
+        int maxNum = mMax.getNumerator() * mMin.getDenominator();
+        int num = Utils.randInt(rng, minNum, maxNum);
+        return new Number(num, den).simplify();
     }
 }

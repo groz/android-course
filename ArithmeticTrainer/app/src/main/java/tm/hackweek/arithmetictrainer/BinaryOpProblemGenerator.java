@@ -25,11 +25,19 @@ public class BinaryOpProblemGenerator extends ProblemGenerator {
         List<Number> answers = new ArrayList<>();
         answers.add(correctResult);
 
+        Number min = correctResult.multiply(new Number(1, 2)).subtract(new Number(5));
+        Number max = correctResult.multiply(new Number(3, 2)).add(new Number(5));
+
+        NumberGenerator answerGenerator =
+                min.compareTo(max) < 0
+                        ? new RandomNumberGenerator(0, min, max, true)
+                        : new RandomNumberGenerator(0, max, min, true);
+
         for (int i = 1; i < mAnswersCount; ++i) {
             Number result;
 
             do {
-                result = mNumberGenerator.generate();
+                result = answerGenerator.generate();
             } while (answers.contains(result));
 
             answers.add(result);

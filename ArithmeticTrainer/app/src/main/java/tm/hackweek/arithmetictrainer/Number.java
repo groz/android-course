@@ -5,6 +5,14 @@ import android.support.annotation.NonNull;
 import java.math.BigInteger;
 
 public final class Number implements Comparable<Number> {
+    public int getNumerator() {
+        return mNumerator;
+    }
+
+    public int getDenominator() {
+        return mDenominator;
+    }
+
     private final int mNumerator;
     private final int mDenominator;
 
