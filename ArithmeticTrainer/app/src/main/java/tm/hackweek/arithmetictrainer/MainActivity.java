@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mAnswersContainer = (FlowLayout) findViewById(R.id.answers_container);
 
         final NumberGenerator numGen = new RandomNumberGenerator(10, new Number(0), new Number(100),
-                false);
+                true);
         final int nAnswersCount = 8;
 
         mProblemGenerator = new CompositeProblemGenerator(new ArrayList<ProblemGenerator>(){{
