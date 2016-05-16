@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ArithmeticTrainer</string>
+    <string name="fractions">Fractions</string>
+    <string name="operations">Operations</string>
+    <string name="division">/</string>
+    <string name="multiply">x</string>
+    <string name="subtraction">-</string>
+    <string name="addition">+</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="presets">Presets</string>
+    <string name="answers_number">Answer options</string>
+    <string name="number_range">Number range</string>
+    <string name="timer_done">Done</string>
 </resources>

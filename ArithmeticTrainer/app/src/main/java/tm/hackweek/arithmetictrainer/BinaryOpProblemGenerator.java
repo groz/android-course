@@ -38,7 +38,8 @@ public class BinaryOpProblemGenerator extends ProblemGenerator {
         }
         min = min.subtract(new Number(5));
         max = max.add(new Number(5));
-        NumberGenerator answerGenerator = new RandomNumberGenerator(0, min, max, true);
+        NumberGenerator answerGenerator = new RandomNumberGenerator(
+                0, min, max, mNumberGenerator.isFractional());
 
         for (int i = 1; i < mAnswersCount; ++i) {
             Number result;
