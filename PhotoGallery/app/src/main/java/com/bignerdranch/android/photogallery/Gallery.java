@@ -33,8 +33,8 @@ public class Gallery {
         return total;
     }
 
-    public List<GalleryItem> getPhoto() {
-        return photo;
+    public List<GalleryItem> getPhotos() {
+        return photos;
     }
 
     private int page;
@@ -44,5 +44,7 @@ public class Gallery {
     private int perPage;
 
     private int total;
-    private List<GalleryItem> photo;
+
+    @JsonProperty("photo")
+    private List<GalleryItem> photos;
 }

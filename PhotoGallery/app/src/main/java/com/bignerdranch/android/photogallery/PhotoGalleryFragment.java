@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
@@ -40,20 +41,70 @@ public class PhotoGalleryFragment extends Fragment {
         return v;
     }
 
-    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
+    private class FetchItemsTask extends AsyncTask<Void, Void, Gallery> {
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Gallery doInBackground(Void... voids) {
             FlickrFetchr fetcher = new FlickrFetchr();
 
             try {
                 Gallery gallery = fetcher.fetchGallery();
                 Log.i(TAG, gallery.toString());
+                return gallery;
             } catch (Exception ex) {
                 Log.e(TAG, "Fetching failed", ex);
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Gallery gallery) {
+            setupAdapter(gallery);
+        }
+    }
+
+    private void setupAdapter(Gallery gallery) {
+        mRecyclerView.setAdapter(new GalleryAdapter(gallery));
+    }
+
+    private class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
+
+        private final Gallery mGallery;
+
+        public GalleryAdapter(Gallery gallery) {
+            mGallery = gallery;
+        }
+
+        @Override
+        public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = new TextView(getActivity());
+            return new GalleryViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(GalleryViewHolder holder, int position) {
+            holder.bindItem(mGallery.getPhotos().get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mGallery.getPhotos().size();
+        }
+    }
+
+    private class GalleryViewHolder extends RecyclerView.ViewHolder {
+        private final TextView mTextView;
+        private GalleryItem mGalleryItem;
+
+        public GalleryViewHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView)itemView;
+        }
+
+        public void bindItem(GalleryItem galleryItem) {
+            mGalleryItem = galleryItem;
+            mTextView.setText(galleryItem.getTitle());
         }
     }
 }
