@@ -14,19 +14,31 @@ import android.widget.TextView;
 
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
+    private Gallery mGallery;
 
     public static Fragment newInstance() {
         return new PhotoGalleryFragment();
     }
 
     private RecyclerView mRecyclerView;
+    private AsyncTask mFetchTask;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        new FetchItemsTask().execute();
+         mFetchTask = new FetchItemsTask().execute();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mFetchTask != null) {
+            mFetchTask.cancel(true);
+            mFetchTask = null;
+        }
     }
 
     @Nullable
@@ -37,6 +49,10 @@ public class PhotoGalleryFragment extends Fragment {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_photogallery_recycler_view);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        if (mGallery != null) {
+            setupAdapter(mGallery);
+        }
 
         return v;
     }
@@ -65,7 +81,10 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     private void setupAdapter(Gallery gallery) {
-        mRecyclerView.setAdapter(new GalleryAdapter(gallery));
+        if (isAdded()) {
+            mGallery = gallery;
+            mRecyclerView.setAdapter(new GalleryAdapter(gallery));
+        }
     }
 
     private class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
