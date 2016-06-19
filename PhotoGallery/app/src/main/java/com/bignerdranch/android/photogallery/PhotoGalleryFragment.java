@@ -45,10 +45,10 @@ public class PhotoGalleryFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             FlickrFetchr fetcher = new FlickrFetchr();
-            
+
             try {
-                String data = fetcher.getUrlString("https://www.bignerdranch.com");
-                Log.i(TAG, data);
+                Gallery gallery = fetcher.fetchGallery();
+                Log.i(TAG, gallery.toString());
             } catch (Exception ex) {
                 Log.e(TAG, "Fetching failed", ex);
             }
