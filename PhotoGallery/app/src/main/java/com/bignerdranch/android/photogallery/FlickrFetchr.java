@@ -19,23 +19,29 @@ public class FlickrFetchr {
         return IOUtils.toString(new URL(url));
     }
 
-    public String fetch(String method) throws IOException {
-        URL url = new URL(fromMethod(method));
-        Log.d(TAG, fromMethod(method));
+    public String fetch(String method, int page, int perPage) throws IOException {
+        URL url = new URL(fromMethod(method, page, perPage));
+        Log.d(TAG, fromMethod(method, page, perPage));
         return IOUtils.toString(url);
     }
 
-    public Gallery fetchGallery() throws IOException {
-        String jsonData = fetch("flickr.photos.getRecent");
+    public Gallery fetchGallery(int page, int perPage) throws IOException {
+        String jsonData = fetch("flickr.photos.getRecent", page, perPage);
         ObjectMapper mapper = new ObjectMapper();
         GalleryRoot gallery = mapper.readValue(jsonData, GalleryRoot.class);
         return gallery.getPhotos();
     }
 
-    private String fromMethod(String method) {
-        return String.format("%s?method=%s&api_key=%s&format=json&nojsoncallback=1&extras=url_s",
+    public Gallery fetchGallery() throws IOException {
+        return fetchGallery(1, 100);
+    }
+
+    private String fromMethod(String method, int page, int perPage) {
+        return String.format("%s?method=%s&api_key=%s&format=json&nojsoncallback=1&extras=url_s&page=%s&per_page=%s",
                 BASE_URL,
                 method,
-                API_KEY);
+                API_KEY,
+                page,
+                perPage);
     }
 }
