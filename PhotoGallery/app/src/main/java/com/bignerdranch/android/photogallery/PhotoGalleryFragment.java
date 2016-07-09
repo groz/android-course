@@ -1,5 +1,6 @@
 package com.bignerdranch.android.photogallery;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -123,13 +125,16 @@ public class PhotoGalleryFragment extends Fragment {
 
         @Override
         public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = new TextView(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.gallery_item, parent, false);
             return new GalleryViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(GalleryViewHolder holder, int position) {
-            holder.bindItem(mGalleryItems.get(position));
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_gallery_image_placeholder);
+            GalleryItem item = mGalleryItems.get(position);
+            holder.bindDrawable(drawable, item.getTitle());
         }
 
         @Override
@@ -139,17 +144,16 @@ public class PhotoGalleryFragment extends Fragment {
     }
 
     private class GalleryViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mTextView;
-        private GalleryItem mGalleryItem;
+        private final ImageView mImageView;
 
         public GalleryViewHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView)itemView;
+            mImageView = (ImageView)itemView.findViewById(R.id.gallery_item_image);
         }
 
-        public void bindItem(GalleryItem galleryItem) {
-            mGalleryItem = galleryItem;
-            mTextView.setText(galleryItem.getTitle());
+        public void bindDrawable(Drawable drawable, String text) {
+            mImageView.setImageDrawable(drawable);
+            mImageView.setContentDescription(text);
         }
     }
 
