@@ -22,6 +22,7 @@ public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
     private List<GalleryItem> mGalleryItems;
     private GridLayoutManager mLayoutManager;
+    private ThumbnailDownloader<GalleryViewHolder> mThumbnailDownloader;
 
     public static Fragment newInstance() {
         return new PhotoGalleryFragment();
@@ -36,6 +37,9 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
 
         mFetchTask = new FetchItemsTask().execute();
+        mThumbnailDownloader = new ThumbnailDownloader<>("ThumbnailDownloaderThread");
+        mThumbnailDownloader.start();
+        mThumbnailDownloader.getLooper();
     }
 
     @Override
@@ -135,6 +139,10 @@ public class PhotoGalleryFragment extends Fragment {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_gallery_image_placeholder);
             GalleryItem item = mGalleryItems.get(position);
             holder.bindDrawable(drawable, item.getTitle());
+
+            if (item.getUrl_s() != null) {
+                mThumbnailDownloader.queueDownload(holder, item.getUrl_s());
+            }
         }
 
         @Override
