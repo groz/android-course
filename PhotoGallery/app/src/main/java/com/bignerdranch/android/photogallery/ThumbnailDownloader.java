@@ -19,7 +19,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
     private Handler mRequestHandler;
     private final Handler mResponseHandler;
     private final DownloadCompleteListener<T> mDownloadCompleteListener;
-    private final LruCache<String, Bitmap> mCache = new LruCache<>(100);
+    private final LruCache<String, Bitmap> mCache = new LruCache<>(1000);
 
     public interface DownloadCompleteListener<T> {
         void onComplete(T target, Bitmap bmp);
@@ -38,10 +38,16 @@ public class ThumbnailDownloader<T> extends HandlerThread {
     }
 
     public void queueDownload(T target, String url) {
-        Log.d(TAG, "Queued: " + url);
-        mRequestMap.put(target, url);
-        Message msg = mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD, target);
-        mRequestHandler.sendMessage(msg);
+        Bitmap inCache = mCache.get(url);
+
+        if (inCache != null) {
+            mDownloadCompleteListener.onComplete(target, inCache);
+        } else {
+            Log.d(TAG, "Queued: " + url);
+            mRequestMap.put(target, url);
+            Message msg = mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD, target);
+            mRequestHandler.sendMessage(msg);
+        }
     }
 
     private static class RequestHandler<T> extends Handler {
@@ -79,6 +85,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
                     public void run() {
                         Log.d(TAG, "ResponseHandler.handleMessage");
                         if (mRequestMap.get(target) != url) {
+                            Log.d(TAG, "Request doesn't equal url");
                             return;
                         }
                         mRequestMap.remove(target);
