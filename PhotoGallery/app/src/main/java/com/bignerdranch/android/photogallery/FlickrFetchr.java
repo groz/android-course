@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
@@ -19,14 +22,12 @@ public class FlickrFetchr {
         return IOUtils.toString(new URL(url));
     }
 
-    public String fetch(String method, int page, int perPage) throws IOException {
-        URL url = new URL(fromMethod(method, page, perPage));
-        Log.d(TAG, fromMethod(method, page, perPage));
-        return IOUtils.toString(url);
-    }
-
     public Gallery fetchGallery(int page, int perPage) throws IOException {
-        String jsonData = fetch("flickr.photos.getRecent", page, perPage);
+        String jsonData = fetch("flickr.photos.getRecent", page, perPage,
+                new HashMap<String, String>() {{
+                    put("extras", "url_s");
+                }});
+
         ObjectMapper mapper = new ObjectMapper();
         GalleryRoot gallery = mapper.readValue(jsonData, GalleryRoot.class);
         return gallery.getPhotos();
@@ -40,12 +41,28 @@ public class FlickrFetchr {
         return IOUtils.toByteArray(new URL(url));
     }
 
-    private String fromMethod(String method, int page, int perPage) {
-        return String.format("%s?method=%s&api_key=%s&format=json&nojsoncallback=1&extras=url_s&page=%s&per_page=%s",
+    private String fetch(String method, int page, int perPage) throws IOException {
+        return fetch(method, page, perPage, new HashMap<String, String>());
+    }
+
+    private String fetch(String method, int page, int perPage, Map<String, String> args) throws IOException {
+        String str = String.format("%s?method=%s&api_key=%s&format=json&nojsoncallback=1&page=%s&per_page=%s",
                 BASE_URL,
                 method,
                 API_KEY,
                 page,
                 perPage);
+
+        StringBuilder result = new StringBuilder(str);
+
+        for (Map.Entry<String,String> entry: args.entrySet()) {
+            result.append('&');
+            result.append(entry.getKey());
+            result.append('=');
+            result.append(entry.getValue());
+        }
+
+        URL url = new URL(result.toString());
+        return IOUtils.toString(url);
     }
 }
