@@ -1,20 +1,20 @@
 package com.bignerdranch.android.photogallery;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -37,7 +37,15 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
 
         mFetchTask = new FetchItemsTask().execute();
-        mThumbnailDownloader = new ThumbnailDownloader<>("ThumbnailDownloaderThread");
+        mThumbnailDownloader = new ThumbnailDownloader<>("ThumbnailDownloaderThread",
+                new Handler(),
+                new ThumbnailDownloader.DownloadCompleteListener<GalleryViewHolder>() {
+                    @Override
+                    public void onComplete(GalleryViewHolder target, Bitmap bmp) {
+                        Drawable img = new BitmapDrawable(getResources(), bmp);
+                        target.bindDrawable(img);
+                    }
+                });
         mThumbnailDownloader.start();
         mThumbnailDownloader.getLooper();
     }
@@ -114,7 +122,12 @@ public class PhotoGalleryFragment extends Fragment {
             } else {
                 // TODO: filter out duplicate items
                 mGalleryItems.addAll(galleryItems);
-                mRecyclerView.getAdapter().notifyDataSetChanged();
+
+                if (mRecyclerView.getAdapter() == null) {
+                    mRecyclerView.setAdapter(new GalleryAdapter(mGalleryItems));
+                } else {
+                    mRecyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
         }
     }
@@ -138,7 +151,6 @@ public class PhotoGalleryFragment extends Fragment {
         public void onBindViewHolder(GalleryViewHolder holder, int position) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_gallery_image_placeholder);
             GalleryItem item = mGalleryItems.get(position);
-            holder.bindDrawable(drawable, item.getTitle());
 
             if (item.getUrl_s() != null) {
                 mThumbnailDownloader.queueDownload(holder, item.getUrl_s());
@@ -159,9 +171,8 @@ public class PhotoGalleryFragment extends Fragment {
             mImageView = (ImageView)itemView.findViewById(R.id.gallery_item_image);
         }
 
-        public void bindDrawable(Drawable drawable, String text) {
+        public void bindDrawable(Drawable drawable) {
             mImageView.setImageDrawable(drawable);
-            mImageView.setContentDescription(text);
         }
     }
 
@@ -184,7 +195,7 @@ public class PhotoGalleryFragment extends Fragment {
                     int perPage = 100;
                     int page = mGalleryItems.size() / perPage + 1;
 
-                    if (mFetchTask.getStatus() == AsyncTask.Status.FINISHED) {
+                    if (mFetchTask == null || mFetchTask.getStatus() == AsyncTask.Status.FINISHED) {
                         mFetchTask = new FetchItemsTask(page, perPage).execute();
                     }
                 }

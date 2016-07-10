@@ -36,6 +36,10 @@ public class FlickrFetchr {
         return fetchGallery(1, 100);
     }
 
+    public byte[] fetchImage(String url) throws IOException {
+        return IOUtils.toByteArray(new URL(url));
+    }
+
     private String fromMethod(String method, int page, int perPage) {
         return String.format("%s?method=%s&api_key=%s&format=json&nojsoncallback=1&extras=url_s&page=%s&per_page=%s",
                 BASE_URL,
