@@ -186,12 +186,12 @@ public class PhotoGalleryFragment extends Fragment {
                 int totalItemCount = mLayoutManager.getItemCount();
                 int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
-                Log.d(TAG, String.format(
-                   "Visible items: %s, past items: %s, total items: %s, gallery size: %s",
-                        visibleItemCount, pastVisiblesItems, totalItemCount, mGalleryItems.size()
-                ));
-
                 if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                    Log.d(TAG, String.format(
+                            "Visible items: %s, past items: %s, total items: %s, gallery size: %s",
+                            visibleItemCount, pastVisiblesItems, totalItemCount, mGalleryItems.size()
+                    ));
+
                     int perPage = 100;
                     int page = mGalleryItems.size() / perPage + 1;
 
