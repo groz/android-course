@@ -17,17 +17,26 @@ public class FlickrFetchr {
     private static final String BASE_URL = "https://api.flickr.com/services/rest";
     private static final String API_KEY = "1437d7f279781b63b2cb669d320ac628";
 
-
-    public String getUrlString(String url) throws IOException {
-        return IOUtils.toString(new URL(url));
-    }
-
     public Gallery fetchGallery(int page, int perPage) throws IOException {
         String jsonData = fetch("flickr.photos.getRecent", page, perPage,
                 new HashMap<String, String>() {{
                     put("extras", "url_s");
                 }});
 
+        return toGallery(jsonData);
+    }
+
+    public Gallery fetchGalleryByTopic(final String topic, int page, int perPage) throws IOException {
+        String jsonData = fetch("flickr.photos.search", page, perPage,
+                new HashMap<String, String>() {{
+                    put("text", topic);
+                    put("extras", "url_s");
+                }});
+
+        return toGallery(jsonData);
+    }
+
+    private Gallery toGallery(String jsonData) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         GalleryRoot gallery = mapper.readValue(jsonData, GalleryRoot.class);
         return gallery.getPhotos();

@@ -10,8 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +27,7 @@ public class PhotoGalleryFragment extends Fragment {
     private List<GalleryItem> mGalleryItems;
     private GridLayoutManager mLayoutManager;
     private ThumbnailDownloader<GalleryViewHolder> mThumbnailDownloader;
+    private String mSearchQuery = null;
 
     public static Fragment newInstance() {
         return new PhotoGalleryFragment();
@@ -32,9 +37,34 @@ public class PhotoGalleryFragment extends Fragment {
     private AsyncTask mFetchTask;
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_photo_gallery, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.menu_item_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mSearchQuery = query;
+                mGalleryItems.clear();
+                mFetchTask = new FetchItemsTask().execute();
+                Log.d(TAG, "Searching for " + mSearchQuery + "...");
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
 
         mFetchTask = new FetchItemsTask().execute();
         mThumbnailDownloader = new ThumbnailDownloader<>("ThumbnailDownloaderThread",
@@ -98,8 +128,14 @@ public class PhotoGalleryFragment extends Fragment {
             FlickrFetchr fetcher = new FlickrFetchr();
 
             try {
-                Gallery gallery = fetcher.fetchGallery(mPage, mPerPage);
-                Log.i(TAG, gallery.toString());
+                Gallery gallery;
+
+                if (mSearchQuery == null || mSearchQuery.equals("")) {
+                    gallery = fetcher.fetchGalleryByTopic(mSearchQuery, mPage, mPerPage);
+                } else {
+                    gallery = fetcher.fetchGallery(mPage, mPerPage);
+                }
+
                 return gallery;
             } catch (Exception ex) {
                 Log.e(TAG, "Fetching failed", ex);
@@ -168,7 +204,7 @@ public class PhotoGalleryFragment extends Fragment {
 
         public GalleryViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView)itemView.findViewById(R.id.gallery_item_image);
+            mImageView = (ImageView) itemView.findViewById(R.id.gallery_item_image);
         }
 
         public void bindDrawable(Drawable drawable) {
