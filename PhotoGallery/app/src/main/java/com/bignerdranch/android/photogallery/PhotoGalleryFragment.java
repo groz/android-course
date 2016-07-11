@@ -28,6 +28,7 @@ public class PhotoGalleryFragment extends Fragment {
     private GridLayoutManager mLayoutManager;
     private ThumbnailDownloader<GalleryViewHolder> mThumbnailDownloader;
     private String mSearchQuery = null;
+    private SearchView mSearchView;
 
     public static Fragment newInstance() {
         return new PhotoGalleryFragment();
@@ -44,6 +45,7 @@ public class PhotoGalleryFragment extends Fragment {
                 PersistedConfig.setQuery(getActivity(), mSearchQuery);
                 mGalleryItems.clear();
                 updateItems();
+                mSearchView.clearFocus();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -56,9 +58,9 @@ public class PhotoGalleryFragment extends Fragment {
         inflater.inflate(R.menu.fragment_photo_gallery, menu);
 
         MenuItem menuItem = menu.findItem(R.id.menu_item_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        mSearchView = (SearchView) menuItem.getActionView();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchQuery = query;
@@ -70,6 +72,7 @@ public class PhotoGalleryFragment extends Fragment {
 
                 updateItems();
                 Log.d(TAG, "Searching for " + mSearchQuery + "...");
+                mSearchView.clearFocus();
                 return true;
             }
 
@@ -79,7 +82,7 @@ public class PhotoGalleryFragment extends Fragment {
             }
         });
 
-        searchView.setQuery(PersistedConfig.getQuery(getActivity()), true);
+        mSearchView.setQuery(PersistedConfig.getQuery(getActivity()), true);
     }
 
     void updateItems() {
