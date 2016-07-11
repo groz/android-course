@@ -37,18 +37,38 @@ public class PhotoGalleryFragment extends Fragment {
     private AsyncTask mFetchTask;
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_clear:
+                mSearchQuery = null;
+                PersistedConfig.setQuery(getActivity(), mSearchQuery);
+                mGalleryItems.clear();
+                updateItems();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_photo_gallery, menu);
 
         MenuItem menuItem = menu.findItem(R.id.menu_item_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchQuery = query;
-                mGalleryItems.clear();
-                mFetchTask = new FetchItemsTask().execute();
+                PersistedConfig.setQuery(getActivity(), mSearchQuery);
+
+                if (mGalleryItems != null) {
+                    mGalleryItems.clear();
+                }
+
+                updateItems();
                 Log.d(TAG, "Searching for " + mSearchQuery + "...");
                 return true;
             }
@@ -58,6 +78,16 @@ public class PhotoGalleryFragment extends Fragment {
                 return false;
             }
         });
+
+        searchView.setQuery(PersistedConfig.getQuery(getActivity()), true);
+    }
+
+    void updateItems() {
+        mFetchTask = new FetchItemsTask().execute();
+    }
+
+    void updateItems(int page, int perPage) {
+        mFetchTask = new FetchItemsTask(page, perPage).execute();
     }
 
     @Override
@@ -66,7 +96,7 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mFetchTask = new FetchItemsTask().execute();
+        updateItems();
         mThumbnailDownloader = new ThumbnailDownloader<>("ThumbnailDownloaderThread",
                 new Handler(),
                 new ThumbnailDownloader.DownloadCompleteListener<GalleryViewHolder>() {
@@ -131,9 +161,9 @@ public class PhotoGalleryFragment extends Fragment {
                 Gallery gallery;
 
                 if (mSearchQuery == null || mSearchQuery.equals("")) {
-                    gallery = fetcher.fetchGalleryByTopic(mSearchQuery, mPage, mPerPage);
-                } else {
                     gallery = fetcher.fetchGallery(mPage, mPerPage);
+                } else {
+                    gallery = fetcher.fetchGalleryByTopic(mSearchQuery, mPage, mPerPage);
                 }
 
                 return gallery;
@@ -232,7 +262,7 @@ public class PhotoGalleryFragment extends Fragment {
                     int page = mGalleryItems.size() / perPage + 1;
 
                     if (mFetchTask == null || mFetchTask.getStatus() == AsyncTask.Status.FINISHED) {
-                        mFetchTask = new FetchItemsTask(page, perPage).execute();
+                        updateItems(page, perPage);
                     }
                 }
             }

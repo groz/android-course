@@ -27,6 +27,7 @@ public class FlickrFetchr {
     }
 
     public Gallery fetchGalleryByTopic(final String topic, int page, int perPage) throws IOException {
+        Log.d(TAG, "FlickrFetchr searching for " + topic);
         String jsonData = fetch("flickr.photos.search", page, perPage,
                 new HashMap<String, String>() {{
                     put("text", topic);
@@ -64,12 +65,14 @@ public class FlickrFetchr {
 
         StringBuilder result = new StringBuilder(str);
 
-        for (Map.Entry<String,String> entry: args.entrySet()) {
+        for (Map.Entry<String, String> entry : args.entrySet()) {
             result.append('&');
             result.append(entry.getKey());
             result.append('=');
             result.append(entry.getValue());
         }
+
+        Log.d(TAG, "Sending request to " + result.toString());
 
         URL url = new URL(result.toString());
         return IOUtils.toString(url);
